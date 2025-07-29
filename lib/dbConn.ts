@@ -29,7 +29,7 @@ export async function dbConnect() {
     try{
         cached.conn = await cached.promise
     }catch(e){
-        mongoose.promise = null
+        cached.promise = null
         throw e;
     }
 
