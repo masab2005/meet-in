@@ -1,7 +1,7 @@
 import {dbConnect} from '@/lib/dbConn';
 import {NextResponse,NextRequest} from 'next/server';
 import User from '@/models/User'
-export async function Post(request: NextRequest){
+export async function POST(request: NextRequest){
     try{
         const {name,email,password} = await request.json()
         if(!name || !email || !password){

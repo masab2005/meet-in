@@ -14,7 +14,7 @@ export interface IUser {
 
 const UserSchema = new Schema<IUser>({
 
-    name: {type: String,required: true},
+    name: {type: String,required: true,unique: true},
     email: {type: String,required: true,unique: true},
     password: {type: String,required: true},
     profilePicture: {type: String,default:""},
@@ -30,6 +30,6 @@ UserSchema.pre("save",async function(next){
     next();
 })
 
-const User = models.User || model<IUser>("User",UserSchema);
+const User = models.User || model<IUser>("User",UserSchema,"users");
 
 export default User;
