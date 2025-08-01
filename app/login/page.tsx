@@ -22,7 +22,16 @@ function LoginPage() {
     if (result?.error) {
       console.log(result.error);
     } else {
-      const findUser = await User.findOne({email})
+      const findUser = await fetch("/api/findUser", {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ email })
+      }).then(res => res.json()).catch(err => {
+        console.error("Error fetching user:", err);
+        return null;
+      });
       setUser(findUser)
       router.push("/");
     }

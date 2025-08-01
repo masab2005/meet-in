@@ -18,13 +18,23 @@ interface ChatMessage {
 
 export default function ChatPage() {
   const { receiverName } = useParams();
+  console.log("receiverName:", receiverName);
   const { user }  = useUserStore()
-  const [otherUser, setOtherUser] = useState(null)
-  
+  const [otherUser, setOtherUser] = useState<typeof User | null>(null)
+  //fetch info of other user
   useEffect(() => {
     const fetchUser = async () => {
-      const user = await User.findOne({name:receiverName})
-      setOtherUser(user)
+      const getOtherUser = await fetch("/api/findUser",{
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ name: receiverName?.valueOf() })
+      }).then(res => res.json()).catch(err => {
+        console.error("Error fetching user:", err);
+        return null;
+      })
+      setOtherUser(getOtherUser)
     }
     fetchUser()
   }, [receiverName])
@@ -34,22 +44,22 @@ export default function ChatPage() {
   const messagesEndRef = useRef<HTMLDivElement>(null);
   const socketRef = useRef<Socket | null>(null);
 
-  const currentUserId = user?._id; // Replace with actual user ID
+
 
   useEffect(() => {
     const socket = io('https://websocket-production-665b.up.railway.app', {
       transports: ['websocket'],
     });
     socketRef.current = socket;
-
-    socket.emit('register', currentUserId);
+    
+    socket.emit('register', user?.name);
 
     socket.on('connect', () => {
       console.log('Connected to socket.io server');
     });
 
     socket.on('private_message', ({ from, message }) => {
-      if (from === receiverName) {
+      if (from === otherUser?.name) {
         setMessages((prev) => [
           ...prev,
           {
@@ -80,8 +90,8 @@ export default function ChatPage() {
     if (!newMessage.trim()) return;
 
     socketRef.current?.emit('private_message', {
-      from: currentUserId,
-      to: receiverName,
+      from: user?.name,
+      to: otherUser?.name,
       message: newMessage,
     });
 
@@ -109,7 +119,7 @@ export default function ChatPage() {
           <div className="absolute -bottom-1 -right-1 w-4 h-4 bg-green-500 rounded-full border-2 border-[#e0e0e0]" />
         </div>
         <div className="flex-1">
-          <h2 className="font-semibold text-lg text-gray-800">{otherUser}</h2>
+          <h2 className="font-semibold text-lg text-gray-800">{otherUser?.name}</h2>
           <p className="text-sm text-black">{receiverName}</p>
         </div>
         <button className="w-10 h-10 rounded-full bg-[#e0e0e0] shadow hover:shadow-inner flex items-center justify-center">
