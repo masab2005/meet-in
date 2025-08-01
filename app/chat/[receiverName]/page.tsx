@@ -52,12 +52,16 @@ export default function ChatPage() {
     });
     socketRef.current = socket;
     
-    socket.emit('register', user?.name);
+    if (user?.name) {
+    console.log("Emitting register for", user.name);
+    socket.emit('register', user.name);
+   } else {
+    console.warn("User name is undefined, not registering");
+   }
 
     socket.on('connect', () => {
       console.log('Connected to socket.io server');
     });
-
     socket.on('private_message', ({ from, message }) => {
       if (from === otherUser?.name) {
         setMessages((prev) => [
@@ -79,7 +83,7 @@ export default function ChatPage() {
       socket.disconnect();
       
     };
-  }, [receiverName]);
+  }, [user, otherUser]);
 
   useEffect(() => {
     messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });

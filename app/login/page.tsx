@@ -32,6 +32,7 @@ function LoginPage() {
         console.error("Error fetching user:", err);
         return null;
       });
+      console.log("findUser:", findUser);
       setUser(findUser)
       router.push("/");
     }
