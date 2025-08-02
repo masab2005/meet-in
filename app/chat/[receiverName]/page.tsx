@@ -10,7 +10,6 @@ import { IMessage } from '@/models/Message';
 import { useUserStore } from '@/lib/store/userStore';
 
 interface ChatMessage {
-  id: string;
   content: string;
   sender: 'me' | 'other';
   timestamp: string;
@@ -21,6 +20,7 @@ export default function ChatPage() {
   console.log("receiverName:", receiverName);
   const { user }  = useUserStore()
   const [otherUser, setOtherUser] = useState<typeof User | null>(null)
+
   //fetch info of other user
   useEffect(() => {
     const fetchUser = async () => {
@@ -44,6 +44,38 @@ export default function ChatPage() {
   const messagesEndRef = useRef<HTMLDivElement>(null);
   const socketRef = useRef<Socket | null>(null);
 
+
+  //load previous messages
+  useEffect(() => {
+    const fetchMessages = async() =>{
+      if (!user?.name || !otherUser?.name) return;
+      const res = await fetch('/api/getMessage',{
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ from: user, to: otherUser })
+      })
+      if (!res.ok) {
+      const text = await res.text(); // log actual response body
+      console.error("Failed to fetch messages:", res.status, text);
+      return;
+    }
+
+    const data = await res.json(); 
+    data.forEach((msg: any) => {
+        setMessages((prev)=> [
+          ...prev,
+          {
+              content: msg.content,
+              sender: msg.from === user?.name ? 'me' : 'other',
+              timestamp: msg.timestamp
+          }
+        ])
+      })
+    }
+    fetchMessages();
+  },[user, otherUser]);
 
 
   useEffect(() => {
@@ -83,13 +115,13 @@ export default function ChatPage() {
       socket.disconnect();
       
     };
-  }, [user, otherUser]);
+  }, [user?.name, otherUser?.name]);
 
   useEffect(() => {
     messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
   }, [messages]);
 
-  const handleSendMessage = (e: React.FormEvent) => {
+  const handleSendMessage = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!newMessage.trim()) return;
 
@@ -98,7 +130,7 @@ export default function ChatPage() {
       to: otherUser?.name,
       message: newMessage,
     });
-
+  
     setMessages((prev) => [
       ...prev,
       {
@@ -112,6 +144,28 @@ export default function ChatPage() {
       },
     ]);
     setNewMessage('');
+    
+    // Save the message to the database
+    try {
+    const res = await fetch('/api/setMessage', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        from: user,
+        to: otherUser,
+        content: newMessage,
+        timestamp: new Date().toISOString(),
+      }),
+    });
+
+    if (!res.ok) {
+      console.error("Failed to save message:", await res.text());
+    }
+  }catch(err) {
+    console.error("Error sending message:", err);
+  }
   };
 
   return (
@@ -135,7 +189,7 @@ export default function ChatPage() {
       <div className="flex-1 overflow-y-auto p-4 space-y-4">
         {messages.map((message) => (
           <div
-            key={message.id}
+            key={message.timestamp}
             className={`flex ${message.sender === 'me' ? 'justify-end' : 'justify-start'}`}
           >
             <div className="max-w-[80%] flex flex-col">
