@@ -10,6 +10,7 @@ import { IMessage } from '@/models/Message';
 import { useUserStore } from '@/lib/store/userStore';
 
 interface ChatMessage {
+  id: string;
   content: string;
   sender: 'me' | 'other';
   timestamp: string;
@@ -47,7 +48,7 @@ export default function ChatPage() {
 
   //load previous messages
   useEffect(() => {
-    const fetchMessages = async() =>{
+    const fetchMessages = async() =>{ 
       if (!user?.name || !otherUser?.name) return;
       const res = await fetch('/api/getMessage',{
         method: 'POST',
@@ -63,16 +64,15 @@ export default function ChatPage() {
     }
 
     const data = await res.json(); 
-    data.forEach((msg: any) => {
-        setMessages((prev)=> [
-          ...prev,
-          {
-              content: msg.content,
-              sender: msg.from === user?.name ? 'me' : 'other',
-              timestamp: msg.timestamp
-          }
-        ])
-      })
+    const mappedMessages = data.map((msg: any) => ({
+      id: msg._id || Date.now().toString(),
+      content: msg.content,
+      sender: msg.from.toString() === user._id ? 'me' : 'other',
+      timestamp: msg.timestamp,
+    }));
+
+    setMessages(mappedMessages); 
+  
     }
     fetchMessages();
   },[user, otherUser]);
@@ -143,7 +143,6 @@ export default function ChatPage() {
         }),
       },
     ]);
-    setNewMessage('');
     
     // Save the message to the database
     try {
@@ -156,8 +155,12 @@ export default function ChatPage() {
         from: user,
         to: otherUser,
         content: newMessage,
-        timestamp: new Date().toISOString(),
-      }),
+        timestamp: new Date().toLocaleTimeString([], {
+          hour: '2-digit',
+          minute: '2-digit',
+        }),
+
+      })
     });
 
     if (!res.ok) {
@@ -166,6 +169,7 @@ export default function ChatPage() {
   }catch(err) {
     console.error("Error sending message:", err);
   }
+  setNewMessage('');
   };
 
   return (
@@ -178,7 +182,7 @@ export default function ChatPage() {
         </div>
         <div className="flex-1">
           <h2 className="font-semibold text-lg text-gray-800">{otherUser?.name}</h2>
-          <p className="text-sm text-black">{receiverName}</p>
+          <p className="text-sm text-black">online</p>
         </div>
         <button className="w-10 h-10 rounded-full bg-[#e0e0e0] shadow hover:shadow-inner flex items-center justify-center">
           <MoreVertical size={20} className="text-gray-500" />
@@ -189,7 +193,7 @@ export default function ChatPage() {
       <div className="flex-1 overflow-y-auto p-4 space-y-4">
         {messages.map((message) => (
           <div
-            key={message.timestamp}
+            key={message.id}
             className={`flex ${message.sender === 'me' ? 'justify-end' : 'justify-start'}`}
           >
             <div className="max-w-[80%] flex flex-col">
