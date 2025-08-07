@@ -12,6 +12,7 @@
     "@types/bcryptjs": "^2.4.6",
     "bcryptjs": "^3.0.2",
     "clsx": "^2.1.1",
+    "framer-motion": "^12.23.12",
     "lucide-react": "^0.534.0",
     "mongoose": "^8.16.5",
     "next": "15.4.4",
