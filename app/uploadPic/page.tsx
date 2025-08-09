@@ -2,9 +2,9 @@
 
 import {UploadButton} from "@/lib/utils/uploadthing";
 
-export default function Home() {
+export default function ProfilePicButton() {
   return (
-    <main className="flex min-h-screen flex-col items-center justify-between p-24">
+    <div>
       <UploadButton
         endpoint="profilePicture"
         onClientUploadComplete={(res) => {
@@ -17,6 +17,6 @@ export default function Home() {
           alert(`ERROR! ${error.message}`);
         }}
       />
-    </main>
+    </div>
   );
 }

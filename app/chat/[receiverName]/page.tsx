@@ -2,11 +2,11 @@
 import { useEffect, useRef, useState } from 'react';
 import { useParams } from 'next/navigation';
 import { io, Socket } from 'socket.io-client';
-import { Send, MoreVertical } from 'lucide-react';
+import { Send, MoreVertical, ChevronLeft } from 'lucide-react';
 import User from "@/models/User"
 import { useUserStore } from '@/lib/store/userStore';
 import { set } from 'mongoose';
-
+import { useRouter } from 'next/navigation';
 interface ChatMessage {
   id: string;
   content: string;
@@ -17,7 +17,7 @@ interface ChatMessage {
 export default function ChatPage() {
   const { receiverName } = useParams();
   console.log("receiverName:", receiverName);
-
+  const router = useRouter();
   const { user }  = useUserStore()
   const [otherUser, setOtherUser] = useState<typeof User | null>(null)
 
@@ -175,10 +175,10 @@ export default function ChatPage() {
           --bg: #e9eef5;           /* page background */
           --surface: #f2f5fa;      /* cards / panels */
           --text: #2b2f36;         /* primary text */
-          --muted: #6b7280;        /* secondary text */
+          --muted: black;        /* secondary text */
           --accent: #e9e2ff;       /* very soft accent (not blue) */
           --shadow-dark: rgba(0, 0, 0, 0.14);
-          --shadow-light: rgba(255, 255, 255, 0.92);
+          --shadow-light: rgba(255, 255, 255, 0.45);
         }
 
         /* Subtle radial sheen */
@@ -264,15 +264,21 @@ export default function ChatPage() {
           <div className="h-[90vh] w-full max-w-xl mx-auto rounded-[2rem] neu-surface neu-raised neu-ring flex flex-col">
             {/* Header */}
             <div className="p-4 flex items-center gap-3 sticky top-0 z-10 rounded-t-[2rem]">
+              <ChevronLeft size={24} onClick={() => router.back()} className="mx-auto text-[color:var(--muted)] cursor-pointer" />
               <div className="relative">
-                <div className="w-12 h-12 rounded-[1.4rem] neu-surface neu-inset" />
-                <div
+                <div className="w-10 h-10 bg-amber-200 rounded-full shadow-[inset_2px_2px_4px_rgba(245,158,11,0.2)] flex items-center justify-center">
+                          <span className="text-amber-800 font-semibold text-sm">
+                            {otherUser?.name[0].toUpperCase()}
+                          </span>
+                        </div>
+                  <div
                   className="absolute -bottom-1 -right-1 w-4 h-4 rounded-full border border-white/70 neu-glow"
-                  style={{ background: 'linear-gradient(145deg, #d4f8e8, #bff0db)' }}
+                  style={{ background: 'lightgreen' }}
                   aria-label="online status"
                 />
+                
               </div>
-              <div className="flex-1">
+              <div className="flex-1"> 
                 <h2 className="font-semibold text-[15px] leading-tight text-[color:var(--text)]">{otherUser?.name}</h2>
                 <p className="text-xs text-[color:var(--muted)]">online</p>
               </div>
@@ -285,7 +291,7 @@ export default function ChatPage() {
             </div>
 
             {/* Messages */}
-            <div className="flex-1 bg-[#f1efeb] overflow-y-auto px-4 pb-5 space-y-4 custom-scrollbar">
+            <div className="flex-1 bg-[#f1ebde] overflow-y-auto py-2 px-4 pb-5 space-y-4 custom-scrollbar">
               {messages.map((message) => (
                 <div
                   key={message.id}
