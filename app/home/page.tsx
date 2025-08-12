@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import { IUser } from "@/models/User";
 import { useRouter } from "next/navigation";
 import { useUserStore } from "@/lib/store/userStore";
+import { Settings, MessageCircle, Search, User } from "lucide-react";
 
 export default function HomePage() {
   const [searchTerm, setSearchTerm] = useState("");
@@ -51,42 +52,93 @@ export default function HomePage() {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-amber-100 via-amber-50 to-yellow-100 p-6">
-      {/* Background decoration circles */}
-      <div className="fixed inset-0 overflow-hidden pointer-events-none">
-        <div className="absolute -top-20 -right-20 w-80 h-80 bg-amber-200/30 rounded-full blur-3xl"></div>
-        <div className="absolute -bottom-32 -left-32 w-96 h-96 bg-yellow-200/20 rounded-full blur-3xl"></div>
-        <div className="absolute top-1/3 right-1/4 w-32 h-32 bg-amber-300/20 rounded-full blur-2xl"></div>
+    <div className="min-h-screen bg-gradient-to-br from-amber-200 via-amber-200 to-amber-300 relative overflow-hidden">
+      {/* Animated background elements - Same as login/register */}
+      <div className="absolute inset-0 overflow-hidden" aria-hidden="true">
+        <div className="absolute top-20 left-10 w-32 h-32 bg-amber-200 rounded-full opacity-20" 
+             style={{
+               animation: 'float 6s ease-in-out infinite',
+               animationDelay: '0s'
+             }}></div>
+        <div className="absolute top-40 right-20 w-24 h-24 bg-amber-300 rounded-full opacity-30"
+             style={{
+               animation: 'slowFloat 8s ease-in-out infinite', 
+               animationDelay: '2s'
+             }}></div>
+        <div className="absolute bottom-32 left-1/4 w-20 h-20 bg-amber-400 rounded-full opacity-25"
+             style={{
+               animation: 'float 6s ease-in-out infinite',
+               animationDelay: '4s'
+             }}></div>
       </div>
 
-      <div className="relative z-10 max-w-md mx-auto">
-        
-        {/* Main Content Container */}
-        <div className="bg-amber-50/50 backdrop-blur-sm rounded-3xl p-6 shadow-[8px_8px_16px_rgba(245,158,11,0.15),-8px_-8px_16px_rgba(255,255,255,0.7)] border border-amber-100/50">
-          
+      {/* Animation keyframes */}
+      <style jsx global>{`
+        @keyframes float {
+          0%, 100% { transform: translateY(0px); }
+          50% { transform: translateY(-20px); }
+        }
+        @keyframes slowFloat {
+          0%, 100% { transform: translateY(0px) scale(1); }
+          50% { transform: translateY(-10px) scale(1.05); }
+        }
+      `}</style>
+
+      <div className="relative z-10 flex items-center justify-center min-h-screen p-6">
+        <div 
+          className="bg-white text-gray-700 max-w-[500px] w-full mx-4 p-8 text-left text-sm rounded-2xl transition-all duration-300"
+          style={{
+            boxShadow: '15px 15px 30px rgba(217, 119, 6, 0.12), -15px -15px 30px rgba(255, 119, 6, 0.09)'
+          }}
+        >
+          {/* Header with Settings */}
+          <div className="flex justify-between items-center mb-8">
+            {/* Logo and Title */}
+            <div className="text-center flex-1">
+              <div className="w-16 h-16 bg-amber-200 rounded-2xl flex items-center justify-center mx-auto mb-4">
+                <MessageCircle className="w-8 h-8 text-amber-700" />
+              </div>
+              <h1 className="text-2xl font-bold text-gray-800 mb-2">MeetIN</h1>
+              <p className="text-gray-600 text-sm">Connect with friends seamlessly</p>
+            </div>
+
+            {/* Settings Icon - Top Right */}
+            
+          </div>
+
           {/* Search Section */}
           <div className="mb-8">
-            <h2 className="text-xl font-semibold text-amber-900 mb-4">Find Friends</h2>
-            
+            <div className="flex justify-between ">
+            <h2 className="text-lg font-semibold text-gray-800 mt-3">Find Friends</h2>
+            <button 
+              onClick={() => router.push('/settings')}
+              className="w-10 h-10 bg-amber-200 text-amber-600 border mb-2.5 border-gray-200 rounded-xl flex items-center justify-center transition-all duration-300 hover:border-amber-300 hover:bg-amber-50"
+ 
+            >
+              <Settings className="w-5 h-5 text-amber-700 hover: transition-colors" />
+            </button>
+            </div>
             <div className="space-y-4">
-              <div className="relative">
+              <div className="flex items-center bg-gray-50 border border-gray-200 rounded-xl p-3 transition-all duration-300 hover:border-amber-300 focus-within:border-amber-400 focus-within:ring-2 focus-within:ring-amber-200"
+                   style={{
+                     boxShadow: 'inset 3px 3px 6px rgba(0, 0, 0, 0.05), inset -3px -3px 6px rgba(255, 255, 255, 0.9)'
+                   }}>
+                <Search className="w-5 h-5 text-gray-400 mr-3" />
                 <input
                   type="text"
                   placeholder="Search username"
                   value={searchTerm}
                   onChange={(e) => setSearchTerm(e.target.value)}
-                  className="w-full px-4 py-3 bg-amber-50 rounded-2xl border-none shadow-[inset_4px_4px_8px_rgba(245,158,11,0.1),inset_-4px_-4px_8px_rgba(255,255,255,0.9)] text-amber-900 placeholder-amber-500 focus:outline-none focus:shadow-[inset_6px_6px_12px_rgba(245,158,11,0.15),inset_-6px_-6px_12px_rgba(255,255,255,0.9)] transition-all duration-300"
+                  className="w-full outline-none bg-transparent text-gray-800 placeholder-gray-500 py-1"
                 />
-                <div className="absolute right-3 top-1/2 transform -translate-y-1/2">
-                  <svg className="w-5 h-5 text-amber-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
-                  </svg>
-                </div>
               </div>
               
               <button 
                 onClick={handleSearch}
-                className="w-full py-3 bg-gradient-to-r from-amber-400 to-amber-500 text-white font-semibold rounded-2xl shadow-[4px_4px_8px_rgba(245,158,11,0.3),-2px_-2px_6px_rgba(255,255,255,0.2)] hover:shadow-[6px_6px_12px_rgba(245,158,11,0.4),-3px_-3px_8px_rgba(255,255,255,0.3)] active:shadow-[inset_2px_2px_4px_rgba(245,158,11,0.3)] transition-all duration-200 transform hover:scale-[1.02] active:scale-[0.98]"
+                className="w-full cursor-pointer bg-amber-500 hover:bg-amber-600 text-white font-semibold py-3 rounded-xl transition-all duration-300 hover:scale-[1.02] focus:outline-none focus:ring-4 focus:ring-amber-200"
+                style={{
+                  boxShadow: '6px 6px 12px rgba(217, 119, 6, 0.2), -6px -6px 12px rgba(255, 255, 255, 0.9)'
+                }}
               >
                 Search
               </button>
@@ -94,21 +146,25 @@ export default function HomePage() {
 
             {/* Search Results */}
             {searchResult && (
-              <div className="mt-6 p-4 bg-white/60 rounded-2xl shadow-[inset_2px_2px_4px_rgba(245,158,11,0.1),inset_-2px_-2px_4px_rgba(255,255,255,0.8)]">
+              <div className="mt-6 p-4 bg-gray-50 border border-gray-200 rounded-xl"
+                   style={{
+                     boxShadow: 'inset 3px 3px 6px rgba(0, 0, 0, 0.05), inset -3px -3px 6px rgba(255, 255, 255, 0.9)'
+                   }}>
                 <div className="flex items-center justify-between">
                   <div className="flex items-center space-x-3">
-                    <div className="w-10 h-10 bg-amber-200 rounded-full shadow-[inset_2px_2px_4px_rgba(245,158,11,0.2)] flex items-center justify-center">
-                      <span className="text-amber-800 font-semibold text-sm">
-                        {searchResult.name.charAt(0).toUpperCase()}
-                      </span>
+                    <div className="w-10 h-10 bg-amber-200 rounded-full flex items-center justify-center">
+                      <User className="w-5 h-5 text-amber-700" />
                     </div>
                     <div>
-                      <h3 className="font-semibold text-amber-900">{searchResult.name}</h3>
+                      <h3 className="font-semibold text-gray-800">{searchResult.name}</h3>
                     </div>
                   </div>
                   <button 
                     onClick={() => router.push(`/chat/${searchResult?.name}`)}
-                    className="px-4 py-2 bg-amber-400 text-white text-sm font-medium rounded-xl shadow-[2px_2px_4px_rgba(245,158,11,0.3)] hover:bg-amber-500 transition-colors duration-200"
+                    className="px-4 py-2 bg-amber-500 hover:bg-amber-600 text-white text-sm font-medium rounded-lg transition-colors duration-200"
+                    style={{
+                      boxShadow: '3px 3px 6px rgba(217, 119, 6, 0.2), -3px -3px 6px rgba(255, 255, 255, 0.9)'
+                    }}
                   >
                     Chat
                   </button>
@@ -119,29 +175,33 @@ export default function HomePage() {
 
           {/* Previous Conversations */}
           <div>
-            <h2 className="text-xl font-semibold text-amber-900 mb-4">Previous Conversations</h2>
+            <h2 className="text-lg font-semibold text-gray-800 mb-4">Previous Conversations</h2>
             
             {previousChats.length > 0 ? (
-              <div className="space-y-3">
+              <div className="space-y-3 max-h-60 overflow-y-auto">
                 {previousChats.map((chat) => (
                   <div 
                     key={chat._id}
-                    className="p-4 bg-white/60 rounded-2xl shadow-[inset_2px_2px_4px_rgba(245,158,11,0.1),inset_-2px_-2px_4px_rgba(255,255,255,0.8)] hover:shadow-[inset_3px_3px_6px_rgba(245,158,11,0.15),inset_-3px_-3px_6px_rgba(255,255,255,0.9)] transition-all duration-200"
+                    className="p-4 bg-gray-50 border border-gray-200 rounded-xl transition-all duration-200 hover:border-amber-300"
+                    style={{
+                      boxShadow: 'inset 3px 3px 6px rgba(0, 0, 0, 0.05), inset -3px -3px 6px rgba(255, 255, 255, 0.9)'
+                    }}
                   >
                     <div className="flex items-center justify-between">
                       <div className="flex items-center space-x-3">
-                        <div className="w-10 h-10 bg-amber-200 rounded-full shadow-[inset_2px_2px_4px_rgba(245,158,11,0.2)] flex items-center justify-center">
-                          <span className="text-amber-800 font-semibold text-sm">
-                            {chat.name.charAt(0).toUpperCase()}
-                          </span>
+                        <div className="w-10 h-10 bg-amber-200 rounded-full flex items-center justify-center">
+                          <User className="w-5 h-5 text-amber-700" />
                         </div>
                         <div>
-                          <h3 className="font-semibold text-amber-900">{chat.name}</h3>
+                          <h3 className="font-semibold text-gray-800">{chat.name}</h3>
                         </div>
                       </div>
                       <button 
                         onClick={() => router.push(`/chat/${chat.name}`)}
-                        className="px-4 py-2 bg-amber-400 text-white text-sm font-medium rounded-xl shadow-[2px_2px_4px_rgba(245,158,11,0.3)] hover:bg-amber-500 transition-colors duration-200"
+                        className="px-4 py-2 bg-amber-500 hover:bg-amber-600 text-white text-sm font-medium rounded-lg transition-colors duration-200"
+                        style={{
+                          boxShadow: '3px 3px 6px rgba(217, 119, 6, 0.2), -3px -3px 6px rgba(255, 255, 255, 0.9)'
+                        }}
                       >
                         Continue
                       </button>
@@ -151,23 +211,18 @@ export default function HomePage() {
               </div>
             ) : (
               <div className="text-center py-8">
-                <div className="w-16 h-16 mx-auto mb-4 bg-amber-100 rounded-full shadow-[inset_2px_2px_4px_rgba(245,158,11,0.1)] flex items-center justify-center">
-                  <svg className="w-8 h-8 text-amber-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z" />
-                  </svg>
+                <div className="w-16 h-16 mx-auto mb-4 bg-gray-50 border border-gray-200 rounded-xl flex items-center justify-center"
+                     style={{
+                       boxShadow: 'inset 3px 3px 6px rgba(0, 0, 0, 0.05), inset -3px -3px 6px rgba(255, 255, 255, 0.9)'
+                     }}>
+                  <MessageCircle className="w-8 h-8 text-gray-400" />
                 </div>
-                <p className="text-amber-600 text-sm">No previous conversations</p>
-                <p className="text-amber-500 text-xs mt-1">Start chatting to see your conversations here</p>
+                <p className="text-gray-600 text-sm mb-1">No previous conversations</p>
+                <p className="text-gray-500 text-xs">Start chatting to see your conversations here</p>
               </div>
             )}
           </div>
-        </div>
-
-        {/* Footer */}
-        <div className="text-center mt-8">
-          <p className="text-amber-600 text-xs">
-            © 2025 MeetIN.
-          </p>
+          
         </div>
       </div>
     </div>

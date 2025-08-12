@@ -5,6 +5,7 @@ import { NextResponse, NextRequest } from "next/server";
 
 export async function GET(req: NextRequest, { params }: { params: { id: string } }) {
   try {
+   
     const id = params.id;
     await dbConnect();
 

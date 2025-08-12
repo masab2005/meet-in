@@ -6,6 +6,7 @@ export default function ProfilePicButton() {
   return (
     <div>
       <UploadButton
+        className=" bg-blue-400 w-20 h-20 hover:bg-blue-500 rounded-2xl "
         endpoint="profilePicture"
         onClientUploadComplete={(res) => {
           // Do something with the response

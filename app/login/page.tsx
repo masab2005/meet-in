@@ -39,13 +39,15 @@ function LoginPage() {
         return null;
       });
       console.log("findUser:", findUser);
-      setUser(findUser)
+      if(findUser) {
+        setUser(findUser);
+      }
       router.push("/");
     }
   };
 
  return (
-    <div className="flex items-center justify-center min-h-screen bg-gradient-to-br from-amber-100 via-amber-200 to-amber-300 relative overflow-hidden">
+    <div className="flex items-center justify-center min-h-screen bg-gradient-to-br from-amber-200 via-amber-200 to-amber-300 relative overflow-hidden">
       <form onSubmit={handleSubmit} >
       {/* Animated background elements */}
       <div className="absolute inset-0 overflow-hidden" aria-hidden="true">
@@ -81,16 +83,14 @@ function LoginPage() {
       <div 
         className="relative z-10 bg-white text-gray-700 max-w-[400px] w-full mx-4 p-8 text-left text-sm rounded-2xl transition-all duration-300 hover:scale-[1.01]"
         style={{
-          boxShadow: '15px 15px 30px rgba(217, 119, 6, 0.15), -15px -15px 30px rgba(255, 255, 255, 0.9)'
+          boxShadow: '15px 15px 30px rgba(217, 119, 6, 0.12), -15px -15px 30px rgba(255, 119, 6, 0.09)'
         }}
       >
         {/* Logo and Title */}
         <div className="text-center mb-8">
-          <div className="w-16 h-16 bg-amber-100 rounded-2xl flex items-center justify-center mx-auto mb-4"
-               style={{
-                 boxShadow: 'inset 6px 6px 12px rgba(217, 119, 6, 0.1), inset -6px -6px 12px rgba(255, 255, 255, 0.9)'
-               }}>
-            <MessageCircle className="w-8 h-8 text-amber-600" />
+          <div className="w-16 h-16 bg-amber-200 rounded-2xl flex items-center justify-center mx-auto mb-4"
+               >
+            <MessageCircle className="w-8 h-8 text-amber-700" />
           </div>
           <h2 className="text-2xl font-bold text-gray-800 mb-2">Welcome Back</h2>
           <p className="text-gray-600 text-sm">Sign in to your MeetIN account</p>
@@ -174,7 +174,7 @@ function LoginPage() {
               </label>
             </div>
           </div>
-          <a className="text-amber-600 hover:text-amber-700 underline text-sm transition-colors duration-200" href="#">
+          <a className="text-amber-700 hover:text-amber-800 underline text-sm transition-colors duration-200" href="#">
             Forgot Password?
           </a>
         </div>
@@ -182,7 +182,7 @@ function LoginPage() {
         {/* Login Button */}
         <button 
           type="submit" 
-          className="w-full mb-4 bg-amber-500 hover:bg-amber-600 text-white font-semibold py-3 rounded-xl transition-all duration-300 hover:scale-[1.02] focus:outline-none focus:ring-4 focus:ring-amber-200"
+          className="w-full mb-4 cursor-pointer bg-amber-500 hover:bg-amber-600 text-white font-semibold py-3 rounded-xl transition-all duration-300 hover:scale-[1.02] focus:outline-none focus:ring-4 focus:ring-amber-200"
           style={{
             boxShadow: '6px 6px 12px rgba(217, 119, 6, 0.2), -6px -6px 12px rgba(255, 255, 255, 0.9)'
           }}
@@ -193,9 +193,10 @@ function LoginPage() {
         {/* Signup link */}
         <p className="text-center text-gray-600">
           Don't have an account?{" "}
-          <button 
-            onClick={() => {/* router.push("/signup") */}} 
-            className="text-amber-600 font-semibold hover:text-amber-700 underline transition-colors duration-200"
+          <button
+            type="button"
+            onClick={() => { router.push("/register") }} 
+            className="text-amber-600 font-semibold cursor-pointer hover:text-amber-700 underline transition-colors duration-200"
           >
             Sign Up
           </button>
