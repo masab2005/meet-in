@@ -229,9 +229,9 @@ function LoginPage() {
                 </label>
               </div>
             </div>
-            <a className={`text-amber-700 hover:text-amber-800 underline text-sm transition-colors duration-200 ${
+            <a onClick={() => router.push("/forget-password")} className={`text-amber-700 hover:text-amber-800 underline text-sm transition-colors duration-200 ${
               isLoading ? 'pointer-events-none opacity-50' : ''
-            }`} href="#">
+            }`} >
               Forgot Password?
             </a>
           </div>

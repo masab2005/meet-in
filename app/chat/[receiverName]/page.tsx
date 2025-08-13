@@ -8,6 +8,7 @@ import { useUserStore } from '@/lib/store/userStore';
 import Avatar from '@/lib/utils/avatar';
 import { useRouter } from 'next/navigation';
 import { IUser } from '@/models/User';
+import { div, ul } from 'framer-motion/client';
 interface ChatMessage {
   id: string;
   content: string;
@@ -21,6 +22,7 @@ export default function ChatPage() {
   const router = useRouter();
   const { user }  = useUserStore()
   const [otherUser, setOtherUser] = useState<IUser | null>(null)
+  const [isMoreVeritical,setMoreVertical] = useState<boolean>(false)
 
   //fetch info of other user
   useEffect(() => {
@@ -247,7 +249,7 @@ export default function ChatPage() {
         }
       `}</style>
 
-      <div className="flex items-center justify-center min-h-screen bg-gradient-to-br from-amber-100 via-amber-200 to-amber-300 relative overflow-hidden px-3 py-6">
+      <div className="flex items-center justify-center min-h-screen bg-gradient-to-br from-amber-300 via-amber-200 to-amber-300 relative overflow-hidden px-3 py-6">
         {loading ? (
           <div className="flex flex-col items-center justify-center h-[70vh] w-full gap-6">
             <div className="neu-surface neu-raised rounded-full p-4">
@@ -264,21 +266,46 @@ export default function ChatPage() {
         ) : (
           <div className="h-[90vh] w-full max-w-xl mx-auto rounded-[2rem] neu-surface neu-raised neu-ring flex flex-col">
             {/* Header */}
-            <ChevronLeft className='cursor-pointer' />
+           
             <div className="p-4 flex items-center gap-3 sticky top-0 z-10 rounded-t-[2rem]">
-              
+            <ChevronLeft className='cursor-pointer' onClick={()=> router.back()}  />
             <Avatar src={otherUser?.profilePicture} name={otherUser?.name} />
 
               <div className="flex-1"> 
                 <h2 className="font-semibold text-[15px] leading-tight text-[color:var(--text)]">{otherUser?.name}</h2>
                 <p className="text-xs text-[color:var(--muted)]">online</p>
               </div>
-              <button
-                className="w-10 h-10 rounded-[1.2rem] neu-surface neu-raised hover:neu-soft transition-all duration-200 active:scale-95"
-                aria-label="More options"
+              <div className="relative inline-block">
+            {/* Toggle Button */}
+            <button
+              onClick={() => setMoreVertical(!isMoreVeritical)}
+              className="w-10 h-10 rounded-[1.2rem] neu-surface neu-raised hover:neu-soft transition-all duration-200 active:scale-95"
+              aria-label="More options"
+            >
+              <MoreVertical size={18} className="mx-auto text-[color:var(--muted)]" />
+            </button>
+
+            {/* Dropdown */}
+            {isMoreVeritical && (
+              <div
+                className="absolute right-0 mt-2 w-40 rounded-xl neu-surface neu-raised shadow-lg overflow-hidden animate-fadeIn z-50"
               >
-                <MoreVertical size={18} className="mx-auto text-[color:var(--muted)]" />
-              </button>
+                <button
+                  onClick={() => router.push('/home')}
+                  className="w-full px-4 py-2 text-left text-sm hover:bg-gray-200 transition-colors"
+                >
+                  Home
+                </button>
+                <button
+                  onClick={() => router.push('/settings')}
+                  className="w-full px-4 py-2 text-left text-sm hover:bg-gray-200 transition-colors"
+                >
+                  Settings
+                </button>
+              </div>
+            )}
+          </div>
+
             </div>
 
             {/* Messages */}

@@ -1,12 +1,14 @@
 'use client'
 import React from 'react'
 import ProfilePicButton from '../uploadPic/page'
-import { Upload, Settings } from 'lucide-react';
+import { Upload, Settings, ChevronLeft } from 'lucide-react';
 import { signOut } from 'next-auth/react';
 import { useUserStore } from '@/lib/store/userStore';
 import { useState } from 'react';
+import { useRouter } from 'next/navigation';
 
 function SettingsPage() {
+  const router = useRouter();
   const [uploadPic, setUploadPic] = useState(false);
   const [removed, setRemoved] = useState(false);
   const [deleteAccount, setDeleteAccount] = useState(false);
@@ -63,8 +65,10 @@ function SettingsPage() {
           boxShadow: '15px 15px 30px rgba(217, 119, 6, 0.12), -15px -15px 30px rgba(255, 255, 255, 0.09)'
         }}
       >
+        
         {/* Header */}
         <div className="text-center mb-8">
+          <ChevronLeft className="cursor-pointer" onClick={() => router.back()} />
           <div className="w-16 h-16 bg-amber-200 rounded-2xl flex items-center justify-center mx-auto mb-4">
             <Settings className="w-8 h-8 text-amber-700" />
           </div>

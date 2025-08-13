@@ -8,6 +8,8 @@ export interface IUser {
     online: boolean;
     socketId?: string;
     _id?: string;
+    resetPasswordToken: String;
+    resetPasswordExpire: Date;
     createdAt?: Date;
     updatedAt?: Date;
 }
@@ -19,7 +21,9 @@ const UserSchema = new Schema<IUser>({
     password: {type: String,required: true},
     profilePicture: {type: String,default:""},
     online: {type: Boolean,default: false},
-    socketId: {type: String,default: ""}
+    socketId: {type: String,default: ""},
+    resetPasswordToken: { type: String, default: "" },
+    resetPasswordExpire: { type: Date, default: null }
 
 },{timestamps: true});
 
