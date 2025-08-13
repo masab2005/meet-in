@@ -5,8 +5,9 @@ import { io, Socket } from 'socket.io-client';
 import { Send, MoreVertical, ChevronLeft } from 'lucide-react';
 import User from "@/models/User"
 import { useUserStore } from '@/lib/store/userStore';
-import { set } from 'mongoose';
+import Avatar from '@/lib/utils/avatar';
 import { useRouter } from 'next/navigation';
+import { IUser } from '@/models/User';
 interface ChatMessage {
   id: string;
   content: string;
@@ -19,12 +20,12 @@ export default function ChatPage() {
   console.log("receiverName:", receiverName);
   const router = useRouter();
   const { user }  = useUserStore()
-  const [otherUser, setOtherUser] = useState<typeof User | null>(null)
+  const [otherUser, setOtherUser] = useState<IUser | null>(null)
 
   //fetch info of other user
   useEffect(() => {
     const fetchUser = async () => {
-      const getOtherUser = await fetch("/api/findUser",{
+      const getOtherUser: IUser = await fetch("/api/findUser",{
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -263,21 +264,11 @@ export default function ChatPage() {
         ) : (
           <div className="h-[90vh] w-full max-w-xl mx-auto rounded-[2rem] neu-surface neu-raised neu-ring flex flex-col">
             {/* Header */}
+            <ChevronLeft className='cursor-pointer' />
             <div className="p-4 flex items-center gap-3 sticky top-0 z-10 rounded-t-[2rem]">
-              <ChevronLeft size={24} onClick={() => router.back()} className="mx-auto text-[color:var(--muted)] cursor-pointer" />
-              <div className="relative">
-                <div className="w-10 h-10 bg-amber-200 rounded-full shadow-[inset_2px_2px_4px_rgba(245,158,11,0.2)] flex items-center justify-center">
-                          <span className="text-amber-800 font-semibold text-sm">
-                            {otherUser?.name[0].toUpperCase()}
-                          </span>
-                        </div>
-                  <div
-                  className="absolute -bottom-1 -right-1 w-4 h-4 rounded-full border border-white/70 neu-glow"
-                  style={{ background: 'lightgreen' }}
-                  aria-label="online status"
-                />
-                
-              </div>
+              
+            <Avatar src={otherUser?.profilePicture} name={otherUser?.name} />
+
               <div className="flex-1"> 
                 <h2 className="font-semibold text-[15px] leading-tight text-[color:var(--text)]">{otherUser?.name}</h2>
                 <p className="text-xs text-[color:var(--muted)]">online</p>
@@ -347,7 +338,7 @@ export default function ChatPage() {
                     newMessage.trim()
                       ? 'neu-surface neu-raised hover:neu-soft'
                       : 'neu-surface neu-inset'
-                  } ${isPressed ? 'scale-95' : 'scale-100'} ${newMessage.trim() ? 'outline outline-1 outline-[rgba(0,0,0,0.04)]' : ''}`}
+                  } ${isPressed ? 'scale-95' : 'scale-100'} ${newMessage.trim() ? 'outline outline-[rgba(0,0,0,0.04)]' : ''}`}
                   aria-label="Send message"
                 >
                   <Send size={18} className={newMessage.trim() ? 'text-[color:var(--text)]' : 'text-[color:var(--muted)]'} />

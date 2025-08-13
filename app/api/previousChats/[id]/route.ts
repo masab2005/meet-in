@@ -6,7 +6,7 @@ import { NextResponse, NextRequest } from "next/server";
 export async function GET(req: NextRequest, { params }: { params: { id: string } }) {
   try {
    
-    const id = params.id;
+    const id =  params?.id;
     await dbConnect();
 
     const msgs = await Message.find({
@@ -20,7 +20,7 @@ export async function GET(req: NextRequest, { params }: { params: { id: string }
       );
     }
 
-    // Extract unique user IDs (excluding self)
+    
     const userIds = new Set<string>();
     for (const message of msgs) {
       const uid = message.from.toString() !== id ? message.from : message.to;

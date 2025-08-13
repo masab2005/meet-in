@@ -130,7 +130,7 @@ const MeetINLandingPage = () => {
           }
         }
       `}</style>
-      <main className="min-h-screen bg-[#f7f4d2] relative overflow-hidden">
+      <main className="min-h-screen bg-amber-200 relative overflow-hidden">
         {/* Animated background elements */}
         <div className="absolute inset-0 overflow-hidden" aria-hidden="true">
           <div className="absolute top-20 left-10 w-32 h-32 bg-amber-200 rounded-full opacity-20 animate-float" style={{animationDelay: '0s'}}></div>
@@ -146,7 +146,7 @@ const MeetINLandingPage = () => {
           <div className={`mb-8 inline-block transition-all duration-1000 ${loaded ? 'animate-fade-in-down' : 'opacity-0'}`}>
             <div className="w-24 h-24 bg-amber-200 rounded-3xl flex items-center justify-center mx-auto mb-6 animate-slow-float transition-all duration-500 hover:scale-110"
                  style={{
-                   boxShadow: '12px 12px 24px rgba(217, 150, 6, 0.5), -12px -12px 24px rgba(255, 255, 255, 0.09)'
+                   boxShadow: '12px 12px 24px rgba(217, 150, 6, 0.5), -12px -12px 24px rgba(217, 150, 6, 0.2)'
                  }}>
               <MessageCircle className="w-12 h-12 text-amber-700" />
             </div>
@@ -167,7 +167,7 @@ const MeetINLandingPage = () => {
             <a href="/register" 
                className="group px-8 py-4 bg-amber-300 rounded-2xl text-amber-900 font-semibold text-lg transition-all duration-300 hover:scale-105 hover:shadow-2xl flex items-center space-x-2 animate-subtle-pulse"
                style={{
-                 boxShadow: '10px 10px 20px rgba(217, 119, 6, 0.3), -10px -10px 20px rgba(255, 255, 255, 0.9)'
+                 boxShadow: '10px 10px 20px rgba(217, 119, 6, 0.5), -10px -10px 20px rgba(255, 255, 255, 0.2)'
                }}>
               <span>Join Now</span>
               <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform duration-300" />
@@ -177,7 +177,7 @@ const MeetINLandingPage = () => {
               href="/login"
               className="px-8 py-4 bg-amber-200 rounded-2xl text-amber-800 font-semibold text-lg transition-all duration-300 hover:scale-105 hover:bg-amber-250"
               style={{
-                boxShadow: 'inset 6px 6px 12px rgba(165, 119, 6, 0.67), inset -6px -6px 12px rgba(255, 255, 255, 0.04)'
+                boxShadow: 'inset 6px 6px 12px rgba(165, 119, 6, 0.3), inset -6px -6px 12px rgba(165, 119, 6, 0.3)'
               }}
             >
               Log In
