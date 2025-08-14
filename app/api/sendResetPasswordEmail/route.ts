@@ -14,7 +14,7 @@ export async function POST(req: NextRequest) {
         if (!email) {
             return NextResponse.json({ error: "Email is required" }, { status: 400 });
         }
-
+       
         await dbConnect();
 
         const user = await User.findOne({ email });
@@ -35,7 +35,7 @@ export async function POST(req: NextRequest) {
 
         
         const transporter = nodemailer.createTransport({
-            service: "gmail", // change to your email service
+            service: "gmail",
             auth: {
                 user: process.env.EMAIL_USER,
                 pass: process.env.EMAIL_PASS,

@@ -3,7 +3,7 @@ import { signIn } from "next-auth/react";
 import { useRouter } from "next/navigation";
 import React, { useState } from "react";
 import { useUserStore } from '@/lib/store/userStore'
-import User from "@/models/User";
+import Link from "next/link";
 import { MessageCircle, Eye, EyeOff, Mail, Lock, AlertCircle, Loader2 } from "lucide-react";
 
 function LoginPage() {
@@ -152,7 +152,7 @@ function LoginPage() {
                 value={email}
                 onChange={(e) => {
                   setEmail(e.target.value);
-                  if (error) setError(""); // Clear error when user starts typing
+                  if (error) setError(""); 
                 }}
                 placeholder="Email"
                 required
@@ -229,11 +229,11 @@ function LoginPage() {
                 </label>
               </div>
             </div>
-            <a onClick={() => router.push("/forget-password")} className={`text-amber-700 hover:text-amber-800 underline text-sm transition-colors duration-200 ${
+            <Link href="/forget-password" className={`text-amber-700 hover:text-amber-800 underline text-sm transition-colors duration-200 ${
               isLoading ? 'pointer-events-none opacity-50' : ''
             }`} >
               Forgot Password?
-            </a>
+            </Link>
           </div>
 
           {/* Login Button */}

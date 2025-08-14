@@ -3,10 +3,9 @@ import User from "@/models/User";
 import Message from "@/models/Message";
 import { NextResponse, NextRequest } from "next/server";
 
-export async function GET(req: NextRequest, { params }: { params: { id: string } }) {
+export async function GET(req: NextRequest, context: { params: Promise<{ id: string }> }) {
   try {
-   
-    const id =  params?.id;
+    const { id } = await context.params;
     await dbConnect();
 
     const msgs = await Message.find({
