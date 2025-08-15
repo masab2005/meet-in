@@ -194,41 +194,7 @@ function LoginPage() {
           </div>
 
           {/* Remember me and Forgot password */}
-          <div className="flex items-center justify-between mb-6">
-            <div className="flex items-center gap-3">
-              <div className="relative">
-                <input 
-                  id="checkbox" 
-                  type="checkbox"
-                  checked={rememberMe}
-                  onChange={(e) => setRememberMe(e.target.checked)}
-                  className="sr-only"
-                  disabled={isLoading}
-                />
-                <label 
-                  htmlFor="checkbox"
-                  className={`flex items-center ${isLoading ? 'cursor-not-allowed opacity-50' : 'cursor-pointer'}`}
-                >
-                  <div className={`w-5 h-5 rounded-lg mr-3 flex items-center justify-center transition-all duration-200 ${
-                    rememberMe 
-                      ? 'bg-amber-100 border border-amber-300' 
-                      : 'bg-gray-100 border border-gray-300'
-                  }`}
-                       style={{
-                         boxShadow: rememberMe 
-                           ? 'inset 2px 2px 4px rgba(217, 119, 6, 0.2), inset -2px -2px 4px rgba(255, 255, 255, 0.9)'
-                           : 'inset 2px 2px 4px rgba(0, 0, 0, 0.1), inset -2px -2px 4px rgba(255, 255, 255, 0.9)'
-                       }}>
-                    {rememberMe && (
-                      <svg className="w-3 h-3 text-amber-600" fill="currentColor" viewBox="0 0 20 20">
-                        <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
-                      </svg>
-                    )}
-                  </div>
-                  <span className="text-gray-600 text-sm">Remember me</span>
-                </label>
-              </div>
-            </div>
+          <div className="flex items-center justify-center mb-6">
             <Link href="/forget-password" className={`text-amber-700 hover:text-amber-800 underline text-sm transition-colors duration-200 ${
               isLoading ? 'pointer-events-none opacity-50' : ''
             }`} >
