@@ -3,17 +3,15 @@ import { useEffect, useRef, useState } from 'react';
 import { useParams } from 'next/navigation';
 import { io, Socket } from 'socket.io-client';
 import { Send, MoreVertical, ChevronLeft } from 'lucide-react';
-import User from "@/models/User"
 import { useUserStore } from '@/lib/store/userStore';
 import Avatar from '@/lib/utils/avatar';
 import { useRouter } from 'next/navigation';
 import { IUser } from '@/models/User';
-import { div, ul } from 'framer-motion/client';
 interface ChatMessage {
   id: string;
   content: string;
-  sender: 'me' | 'other';
-  timestamp: string;
+  sender: 'me' | 'other'
+  createdAt?: string;
 }
 
 export default function ChatPage() {
@@ -70,7 +68,7 @@ export default function ChatPage() {
       id: msg._id || Date.now().toString(),
       content: msg.content,
       sender: msg.from.toString() === user._id ? 'me' : 'other',
-      timestamp: msg.timestamp,
+      createdAt: msg.createdAt,
     }));
     setMessages(mappedMessages);
     }
@@ -103,10 +101,6 @@ export default function ChatPage() {
             id: Date.now().toString(),
             content: message,
             sender: 'other',
-            timestamp: new Date().toLocaleTimeString([], {
-              hour: '2-digit',
-              minute: '2-digit',
-            }),
           },
         ]);
       }
@@ -137,7 +131,7 @@ export default function ChatPage() {
         id: Date.now().toString(),
         content: newMessage,
         sender: 'me',
-        timestamp: new Date().toLocaleTimeString([], {
+        createdAt: new Date().toLocaleTimeString([], {
           hour: '2-digit',
           minute: '2-digit',
         }),
@@ -154,11 +148,7 @@ export default function ChatPage() {
         body: JSON.stringify({
           from: user,
           to: otherUser,
-          content: newMessage,
-          timestamp: new Date().toLocaleTimeString([], {
-            hour: '2-digit',
-            minute: '2-digit',
-          }),
+          content: newMessage
         })
       });
       if (!res.ok) {
@@ -327,11 +317,14 @@ export default function ChatPage() {
                       <p className="text-[13.5px] text-[color:var(--text)]">{message.content}</p>
                     </div>
                     <span
-                      className={`text-[11px] mt-1 px-2 ${
+                      className={`text-[9px] mt-1 px-2 ${
                         message.sender === 'me' ? 'text-[color:var(--muted)]   text-right' : 'text-[color:var(--muted)] text-left'
                       }`}
                     >
-                      {message.timestamp}
+                      {new Date(message.createdAt!).toLocaleTimeString([], {
+                        hour: "2-digit",
+                        minute: "2-digit",
+                      })}
                     </span>
                   </div>
                 </div>

@@ -368,6 +368,7 @@ export default function HomePage() {
                         style={{
                           boxShadow: '3px 3px 6px rgba(217, 119, 6, 0.2), -3px -3px 6px rgba(255, 255, 255, 0.9)'
                         }}
+                        disabled={isLoadingChats}
                       >
                         Continue
                       </button>
