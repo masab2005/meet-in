@@ -1,4 +1,5 @@
 import { dbConnect } from "@/lib/dbConn";
+import User from "@/models/User";
 import Message from "@/models/Message";
 import { NextRequest, NextResponse } from "next/server";
 import { getServerSession } from "next-auth";
