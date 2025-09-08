@@ -1,5 +1,6 @@
 'use client'
 import React, { useState } from 'react';
+import Image from 'next/image';
 export default function Avatar({ src, name }: { src?: string | null; name?: string | null }) {
   const [imgFailed, setImgFailed] = useState(false);
   const initial = name?.[0]?.toUpperCase() ?? '?';
@@ -8,7 +9,7 @@ export default function Avatar({ src, name }: { src?: string | null; name?: stri
     <div className="relative">
       {/* image if available and not failed */}
       {src && !imgFailed ? (
-        <img
+        <Image
           src={src}
           alt={name ?? 'User'}
           onError={() => setImgFailed(true)}

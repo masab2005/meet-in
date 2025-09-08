@@ -11,7 +11,6 @@ function LoginPage() {
   const [email, setEmail] = useState("");
   const [showPassword, setShowPassword] = useState(false);
   const [password, setPassword] = useState("");
-  const [rememberMe, setRememberMe] = useState(false);
   const [error, setError] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const router = useRouter();
@@ -227,7 +226,7 @@ function LoginPage() {
 
           {/* Signup link */}
           <p className="text-center text-gray-600">
-            Don't have an account?{" "}
+            Not have an account?{" "}
             <button
               type="button"
               onClick={() => { router.push("/register") }} 

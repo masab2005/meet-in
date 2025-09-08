@@ -4,7 +4,7 @@ import { useEffect, useState } from "react";
 import { IUser } from "@/models/User";
 import { useRouter } from "next/navigation";
 import { useUserStore } from "@/lib/store/userStore";
-import { Settings, MessageCircle, Search, User, AlertCircle, Loader2, RefreshCw } from "lucide-react";
+import { Settings, MessageCircle, Search, AlertCircle, Loader2, RefreshCw } from "lucide-react";
 import Avatar from "@/lib/utils/avatar";
 
 export default function HomePage() {

@@ -1,6 +1,4 @@
 import { createUploadthing, type FileRouter } from "uploadthing/next";
-import { getServerSession } from "next-auth";
-import { authOptions } from "@/lib/auth"; // your NextAuth config
 import { getToken } from "next-auth/jwt";
 import { dbConnect } from "@/lib/dbConn";
 import  User  from "@/models/User";

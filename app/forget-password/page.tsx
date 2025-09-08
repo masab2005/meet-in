@@ -110,7 +110,7 @@ export default function ForgetPasswordPage(){
                                 <MessageCircle className="w-8 h-8 text-amber-700" />
                             </div>
                             <h2 className="text-2xl font-bold text-gray-800 mb-2">Forgot Password?</h2>
-                            <p className="text-gray-600 text-sm">Enter your email and we'll send you a reset link</p>
+                            <p className="text-gray-600 text-sm">Enter your email and we will send you a reset link</p>
                         </div>
 
                         {/* Error Message */}
@@ -181,10 +181,10 @@ export default function ForgetPasswordPage(){
                         </div>
                         <h2 className="text-2xl font-bold text-gray-800 mb-2">Check Your Email</h2>
                         <p className="text-gray-600 text-sm mb-6">
-                            We've sent a password reset link to <strong>{email}</strong>
+                            We have sent a password reset link to <strong>{email}</strong>
                         </p>
                         <p className="text-gray-500 text-xs mb-6">
-                            Didn't receive the email? Check your spam folder or try again in a few minutes.
+                            Did not receive the email? Check your spam folder or try again in a few minutes.
                         </p>
                         
                         <div className="space-y-3">
