@@ -7,6 +7,7 @@ import { useUserStore } from '@/lib/store/userStore';
 import Avatar from '@/lib/utils/avatar';
 import { useRouter } from 'next/navigation';
 import { IUser } from '@/models/User';
+import { IMessage } from '@/models/Message';
 interface ChatMessage {
   id: string;
   content: string;
@@ -64,7 +65,7 @@ export default function ChatPage() {
       return;
     }
     const data = await res.json();
-    const mappedMessages = data.map((msg: any) => ({
+    const mappedMessages = data.map((msg: IMessage) => ({
       id: msg._id || Date.now().toString(),
       content: msg.content,
       sender: msg.from.toString() === user._id ? 'me' : 'other',
