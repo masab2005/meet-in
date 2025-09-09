@@ -13,9 +13,6 @@ export const ourFileRouter = {
     return { userId: token.id };
   })
   .onUploadComplete(async ({ file, metadata }) => {
-    console.log("meta data:", metadata); // Debug here
-
-    console.log("Uploaded:", file.ufsUrl);
     await dbConnect();
     await User.findByIdAndUpdate(metadata.userId, { profilePicture: file.ufsUrl });
   })

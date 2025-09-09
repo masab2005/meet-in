@@ -1,7 +1,7 @@
 'use client'
 import React, { useState } from 'react';
 import Image from 'next/image';
-export default function Avatar({ src, name }: { src?: string | null; name?: string | null }) {
+export default function Avatar({ src, name, width, height }: { src?: string | null; name?: string | null, width?: number, height?: number }) {
   const [imgFailed, setImgFailed] = useState(false);
   const initial = name?.[0]?.toUpperCase() ?? '?';
 
@@ -13,6 +13,8 @@ export default function Avatar({ src, name }: { src?: string | null; name?: stri
           src={src}
           alt={name ?? 'User'}
           onError={() => setImgFailed(true)}
+          width={width ?? 40}
+          height={height ?? 40}
           className="w-10 h-10 rounded-full object-cover shadow-[inset_2px_2px_4px_rgba(0,0,0,0.06)]"
         />
       ) : (

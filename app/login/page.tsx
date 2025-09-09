@@ -28,7 +28,6 @@ function LoginPage() {
       });
 
       if (result?.error) {
-        console.log(result.error);
         // Map common authentication errors to user-friendly messages
         switch (result.error) {
           case "CredentialsSignin":
@@ -55,7 +54,6 @@ function LoginPage() {
           }
 
           const userData = await findUser.json();
-          console.log("findUser:", userData);
           
           if (userData) {
             setUser(userData);

@@ -17,7 +17,6 @@ interface ChatMessage {
 
 export default function ChatPage() {
   const { receiverName } = useParams();
-  console.log("receiverName:", receiverName);
   const router = useRouter();
   const { user }  = useUserStore()
   const [otherUser, setOtherUser] = useState<IUser | null>(null)
@@ -83,7 +82,6 @@ export default function ChatPage() {
     socketRef.current = socket;
 
     if (user?.name) {
-      console.log("Emitting register for", user.name);
       socket.emit('register', user.name);
       setLoading(false);
     } else {
@@ -91,7 +89,6 @@ export default function ChatPage() {
     }
 
     socket.on('connect', () => {
-      console.log('Connected to socket.io server');
     });
 
     socket.on('private_message', ({ from, message }) => {

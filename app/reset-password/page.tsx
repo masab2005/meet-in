@@ -1,9 +1,11 @@
 'use client'
-import { useState } from "react"
+import { useState, Suspense } from "react"
 import { useSearchParams, useRouter } from "next/navigation"
 import { AlertCircle, Lock, Eye, EyeOff, MessageCircle, Loader2, CheckCircle } from "lucide-react"
+export const dynamic = 'force-dynamic';
 
-export default function ResetPasswordPage() {
+
+function ResetPasswordContent() {
     const [password, setPassword] = useState<string>("")
     const [confirmPassword, setConfirmPassword] = useState<string>("")
     const [showPassword, setShowPassword] = useState(false);
@@ -46,9 +48,7 @@ export default function ResetPasswordPage() {
             
             if (res.ok) {
                 setSuccess("Password reset successful");
-                console.log("Password reset successful");
             } else {
-                console.log(data.error);
                 // Map common errors to user-friendly messages
                 switch (res.status) {
                     case 400:
@@ -280,4 +280,23 @@ export default function ResetPasswordPage() {
             </div>
         </div>
     );
+}
+
+export default function ResetPasswordPage() {
+    return (
+        <Suspense
+            fallback={
+                <div className="flex items-center justify-center min-h-screen bg-gradient-to-br from-amber-200 via-amber-200 to-amber-300">
+                    <div className="bg-white text-gray-700 max-w-[400px] w-full mx-4 p-8 text-center rounded-2xl" style={{ boxShadow: 'inset 6px 6px 12px rgba(165, 119, 6, 0.15), inset -6px -6px 12px rgba(165, 119, 6, 0.15)' }}>
+                        <div className="flex items-center justify-center">
+                            <Loader2 className="w-6 h-6 animate-spin text-amber-600 mr-2" />
+                            <span>Loading...</span>
+                        </div>
+                    </div>
+                </div>
+            }
+        >
+            <ResetPasswordContent />
+        </Suspense>
+    )
 }

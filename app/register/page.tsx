@@ -127,7 +127,6 @@ function RegisterPage() {
         return;
       }
 
-      console.log("Registration successful:", data);
       setSuccess("Account created successfully! Redirecting to login...");
       
       // Redirect after showing success message
