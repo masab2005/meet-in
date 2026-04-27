@@ -12,7 +12,8 @@ export default function ProfilePicButton() {
         onClientUploadComplete={(res) => {
           // Do something with the response
           if (res && res[0]) {
-             const newUrl = res[0].serverData?.file?.ufsUrl || res[0].appUrl || res[0].url;
+             const uploadedFile = res[0] as any;
+             const newUrl = uploadedFile.ufsUrl || uploadedFile.url || uploadedFile.serverData?.url;
              if (useUserStore.getState().user) {
                  useUserStore.getState().setUser({
                     ...useUserStore.getState().user!,

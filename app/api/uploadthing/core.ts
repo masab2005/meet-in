@@ -15,6 +15,7 @@ export const ourFileRouter = {
   .onUploadComplete(async ({ file, metadata }) => {
     await dbConnect();
     await User.findByIdAndUpdate(metadata.userId, { profilePicture: file.ufsUrl });
+    return { uploadedBy: metadata.userId, url: file.ufsUrl };
   })
 } satisfies FileRouter;
 
