@@ -1,15 +1,17 @@
 'use client'
 import React from 'react'
 import ProfilePicButton from '../uploadPic/page'
-import { Upload, Settings, ChevronLeft } from 'lucide-react';
+import { Upload, Settings, ChevronLeft, Image as ImageIcon } from 'lucide-react';
 import { signOut } from 'next-auth/react';
 import { useUserStore } from '@/lib/store/userStore';
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
+import Avatar from '@/lib/utils/avatar';
 
 function SettingsPage() {
   const router = useRouter();
   const [uploadPic, setUploadPic] = useState(false);
+  const [viewPic, setViewPic] = useState(false);
   const [removed, setRemoved] = useState(false);
   const [deleteAccount, setDeleteAccount] = useState(false);
   const [password, setPassword] = useState("");
@@ -35,6 +37,12 @@ function SettingsPage() {
     });
     if (res.ok) {
       setRemoved(true);
+      if (user) {
+        useUserStore.getState().setUser({
+          ...user,
+          profilePicture: ""
+        });
+      }
     }
   }
 
@@ -78,6 +86,22 @@ function SettingsPage() {
 
         {/* Profile Picture */}
         <div className="mb-6">
+          <button
+            onClick={() => setViewPic(!viewPic)}
+            className="w-full mb-3 py-2 bg-gray-50 border border-gray-200 rounded-xl hover:border-amber-300 transition"
+          >
+            <ImageIcon className="w-5 h-5 inline-block mr-2 text-amber-600" />
+            View Current Profile Picture
+          </button>
+          
+          {viewPic && (
+            <div className="flex justify-center mb-3 p-4 bg-gray-50 border border-gray-200 rounded-xl">
+               <div className="scale-[1.5] origin-center my-2">
+                 <Avatar src={user?.profilePicture} name={user?.name} />
+               </div>
+            </div>
+          )}
+
           <button
             onClick={() => setUploadPic(!uploadPic)}
             className="w-full mb-3 py-2 bg-gray-50 border border-gray-200 rounded-xl hover:border-amber-300 transition"

@@ -76,7 +76,7 @@ export default function ChatPage() {
   },[user, otherUser]);
 
   useEffect(() => {
-    const socket = io('https://websocket-7mb8.onrender.com', {
+    const socket = io(process.env.NEXT_PUBLIC_WS_URL || 'https://websocket-7mb8.onrender.com', {
       transports: ['websocket'],
     });
     socketRef.current = socket;
@@ -99,6 +99,7 @@ export default function ChatPage() {
             id: Date.now().toString(),
             content: message,
             sender: 'other',
+            createdAt: new Date().toISOString(),
           },
         ]);
       }
@@ -129,10 +130,7 @@ export default function ChatPage() {
         id: Date.now().toString(),
         content: newMessage,
         sender: 'me',
-        createdAt: new Date().toLocaleTimeString([], {
-          hour: '2-digit',
-          minute: '2-digit',
-        }),
+        createdAt: new Date().toISOString(),
       },
     ]);
 
@@ -144,8 +142,8 @@ export default function ChatPage() {
           'Content-Type': 'application/json',
         },
         body: JSON.stringify({
-          from: user,
-          to: otherUser,
+          from: user?._id,
+          to: otherUser?._id,
           content: newMessage
         })
       });

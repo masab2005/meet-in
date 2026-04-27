@@ -1,6 +1,7 @@
 "use client";
 
 import {UploadButton} from "@/lib/utils/uploadthing";
+import { useUserStore } from "@/lib/store/userStore";
 
 export default function ProfilePicButton() {
   return (
@@ -10,6 +11,15 @@ export default function ProfilePicButton() {
         endpoint="profilePicture"
         onClientUploadComplete={(res) => {
           // Do something with the response
+          if (res && res[0]) {
+             const newUrl = res[0].serverData?.file?.ufsUrl || res[0].appUrl || res[0].url;
+             if (useUserStore.getState().user) {
+                 useUserStore.getState().setUser({
+                    ...useUserStore.getState().user!,
+                    profilePicture: newUrl
+                 });
+             }
+          }
           alert("Upload Completed");
         }}
         onUploadError={(error: Error) => {
