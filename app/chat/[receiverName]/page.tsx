@@ -76,7 +76,7 @@ export default function ChatPage() {
   },[user, otherUser]);
 
   useEffect(() => {
-    const socket = io('https://websocket-production-665b.up.railway.app', {
+    const socket = io('https://websocket-7mb8.onrender.com', {
       transports: ['websocket'],
     });
     socketRef.current = socket;
