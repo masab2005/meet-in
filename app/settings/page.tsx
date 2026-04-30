@@ -48,7 +48,7 @@ function SettingsPage() {
 
   return (
     <div className="flex items-center justify-center py-15 min-h-screen bg-gradient-to-br from-amber-200 via-amber-200 to-amber-300 relative overflow-hidden">
-      
+
       {/* Floating circles like LoginPage */}
       <div className="absolute inset-0 overflow-hidden" aria-hidden="true">
         <div className="absolute top-20 left-10 w-32 h-32 bg-amber-200 rounded-full opacity-20 animate-[float_6s_ease-in-out_infinite]"></div>
@@ -67,13 +67,13 @@ function SettingsPage() {
         }
       `}</style>
 
-      <div 
+      <div
         className="relative z-10 bg-white text-gray-700 max-w-[400px] w-full mx-4 p-8 rounded-2xl shadow-lg text-sm"
         style={{
           boxShadow: '15px 15px 30px rgba(217, 119, 6, 0.12), -15px -15px 30px rgba(255, 255, 255, 0.09)'
         }}
       >
-        
+
         {/* Header */}
         <div className="text-center mb-8">
           <ChevronLeft className="cursor-pointer" onClick={() => router.back()} />
@@ -93,12 +93,12 @@ function SettingsPage() {
             <ImageIcon className="w-5 h-5 inline-block mr-2 text-amber-600" />
             View Current Profile Picture
           </button>
-          
+
           {viewPic && (
             <div className="flex justify-center mb-3 p-4 bg-gray-50 border border-gray-200 rounded-xl">
-               <div className="scale-[1.5] origin-center my-2">
-                 <Avatar src={user?.profilePicture} name={user?.name} />
-               </div>
+              <div className="scale-[1.5] origin-center my-2">
+                <Avatar src={user?.profilePicture} name={user?.name} />
+              </div>
             </div>
           )}
 
@@ -111,7 +111,7 @@ function SettingsPage() {
           </button>
           {uploadPic && (
             <div className="flex justify-center mb-1 p-3 border border-gray-200 rounded-xl">
-              <ProfilePicButton  />
+              <ProfilePicButton />
             </div>
           )}
           <button

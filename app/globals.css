@@ -3,6 +3,17 @@
 :root {
   --background: #ffffff;
   --foreground: #171717;
+  
+  /* Neomorphic tokens */
+  --amber-primary: #f59e0b; /* amber-500 */
+  --amber-hover: #d97706;   /* amber-600 */
+  --amber-light: #fef3c7;   /* amber-100 */
+  --amber-muted: rgba(165, 119, 6, 0.15);
+  
+  --shadow-inset: inset 6px 6px 12px var(--amber-muted), inset -6px -6px 12px var(--amber-muted);
+  --shadow-input-inset: inset 3px 3px 6px rgba(0, 0, 0, 0.05), inset -3px -3px 6px rgba(255, 255, 255, 0.9);
+  --shadow-outset: 6px 6px 12px rgba(217, 119, 6, 0.2), -6px -6px 12px rgba(255, 255, 255, 0.9);
+  --shadow-button-sm: 3px 3px 6px rgba(217, 119, 6, 0.2), -3px -3px 6px rgba(255, 255, 255, 0.9);
 }
 
 @theme inline {
@@ -16,11 +27,45 @@
   :root {
     --background: #0a0a0a;
     --foreground: #ededed;
+    --amber-muted: rgba(245, 158, 11, 0.1);
   }
 }
 
 body {
   background: var(--background);
   color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: var(--font-geist-sans), Arial, Helvetica, sans-serif;
+}
+
+/* Custom Utilities */
+@layer utilities {
+  .neumorph-card {
+    @apply bg-white rounded-2xl transition-all duration-300;
+    box-shadow: var(--shadow-inset);
+  }
+
+  .neumorph-input-container {
+    @apply bg-gray-50 border border-gray-200 rounded-xl p-3 transition-all duration-300;
+    @apply focus-within:ring-2 focus-within:ring-amber-200 focus-within:border-amber-400;
+    @apply hover:border-amber-300;
+    box-shadow: var(--shadow-input-inset);
+  }
+
+  .neumorph-button {
+    @apply bg-amber-500 hover:bg-amber-600 text-white font-semibold py-3 px-6 rounded-xl transition-all duration-300;
+    @apply focus:outline-none focus:ring-4 focus:ring-amber-200;
+    @apply hover:scale-[1.02] active:scale-[0.98];
+    box-shadow: var(--shadow-outset);
+  }
+
+  .neumorph-button-secondary {
+    @apply bg-amber-200 text-amber-700 font-medium py-2 px-4 rounded-lg transition-all duration-300;
+    @apply hover:bg-amber-100 active:scale-95;
+    box-shadow: var(--shadow-button-sm);
+  }
+  
+  .neumorph-icon-button {
+    @apply w-10 h-10 bg-amber-200 text-amber-700 rounded-xl flex items-center justify-center transition-all duration-300;
+    @apply hover:bg-amber-100 border border-transparent hover:border-amber-300;
+  }
 }

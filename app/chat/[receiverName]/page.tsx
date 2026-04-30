@@ -18,14 +18,14 @@ interface ChatMessage {
 export default function ChatPage() {
   const { receiverName } = useParams();
   const router = useRouter();
-  const { user }  = useUserStore()
+  const { user } = useUserStore()
   const [otherUser, setOtherUser] = useState<IUser | null>(null)
-  const [isMoreVeritical,setMoreVertical] = useState<boolean>(false)
+  const [isMoreVeritical, setMoreVertical] = useState<boolean>(false)
 
   //fetch info of other user
   useEffect(() => {
     const fetchUser = async () => {
-      const getOtherUser: IUser = await fetch("/api/findUser",{
+      const getOtherUser: IUser = await fetch("/api/findUser", {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -49,9 +49,9 @@ export default function ChatPage() {
 
   //load previous messages
   useEffect(() => {
-    const fetchMessages = async() =>{
+    const fetchMessages = async () => {
       if (!user?.name || !otherUser?.name) return;
-      const res = await fetch('/api/getMessage',{
+      const res = await fetch('/api/getMessage', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -59,21 +59,21 @@ export default function ChatPage() {
         body: JSON.stringify({ from: user, to: otherUser })
       })
       if (!res.ok) {
-      const text = await res.text(); // log actual response body
-      console.error("Failed to fetch messages:", res.status, text);
-      return;
-    }
-    const data = await res.json();
-    const mappedMessages = data.map((msg: IMessage) => ({
-      id: msg._id || Date.now().toString(),
-      content: msg.content,
-      sender: msg.from.toString() === user._id ? 'me' : 'other',
-      createdAt: msg.createdAt,
-    }));
-    setMessages(mappedMessages);
+        const text = await res.text(); // log actual response body
+        console.error("Failed to fetch messages:", res.status, text);
+        return;
+      }
+      const data = await res.json();
+      const mappedMessages = data.map((msg: IMessage) => ({
+        id: msg._id || Date.now().toString(),
+        content: msg.content,
+        sender: msg.from.toString() === user._id ? 'me' : 'other',
+        createdAt: msg.createdAt,
+      }));
+      setMessages(mappedMessages);
     }
     fetchMessages();
-  },[user, otherUser]);
+  }, [user, otherUser]);
 
   useEffect(() => {
     const socket = io(process.env.NEXT_PUBLIC_WS_URL || 'https://websocket-7mb8.onrender.com', {
@@ -150,7 +150,7 @@ export default function ChatPage() {
       if (!res.ok) {
         console.error("Failed to save message:", await res.text());
       }
-    }catch(err) {
+    } catch (err) {
       console.error("Error sending message:", err);
     }
     setNewMessage('');
@@ -242,9 +242,9 @@ export default function ChatPage() {
               <div className="relative w-20 h-20">
                 <div className="absolute inset-0 rounded-full neu-inset" />
                 <div className="absolute inset-3 rounded-full border border-white/60 shadow-[0_0_0_1px_rgba(0,0,0,0.03)_inset] animate-spin"
-                     style={{ borderTopColor: '#d9d1f7', borderRightColor: 'transparent', borderBottomColor: 'transparent', borderLeftColor: 'transparent', borderStyle: 'solid', borderWidth: '4px' }} />
+                  style={{ borderTopColor: '#d9d1f7', borderRightColor: 'transparent', borderBottomColor: 'transparent', borderLeftColor: 'transparent', borderStyle: 'solid', borderWidth: '4px' }} />
                 <div className="absolute inset-6 rounded-full border border-white/60 animate-spin"
-                     style={{ animationDuration: '2.2s', borderTopColor: '#e7e2ff', borderRightColor: 'transparent', borderBottomColor: 'transparent', borderLeftColor: 'transparent', borderStyle: 'solid', borderWidth: '3px' }} />
+                  style={{ animationDuration: '2.2s', borderTopColor: '#e7e2ff', borderRightColor: 'transparent', borderBottomColor: 'transparent', borderLeftColor: 'transparent', borderStyle: 'solid', borderWidth: '3px' }} />
               </div>
             </div>
             <p className="text-sm text-[color:var(--muted)]">Setting up your chat…</p>
@@ -252,45 +252,44 @@ export default function ChatPage() {
         ) : (
           <div className="h-[90vh] w-full max-w-xl mx-auto rounded-[2rem] neu-surface neu-raised neu-ring flex flex-col">
             {/* Header */}
-           
-            <div className="p-4 flex items-center gap-3 sticky top-0 z-10 rounded-t-[2rem]">
-            <ChevronLeft className='cursor-pointer' onClick={()=> router.back()}  />
-            <Avatar src={otherUser?.profilePicture} name={otherUser?.name} />
 
-              <div className="flex-1"> 
+            <div className="p-4 flex items-center gap-3 sticky top-0 z-10 rounded-t-[2rem]">
+              <ChevronLeft className='cursor-pointer' onClick={() => router.back()} />
+              <Avatar src={otherUser?.profilePicture} name={otherUser?.name} />
+
+              <div className="flex-1">
                 <h2 className="font-semibold text-[15px] leading-tight text-[color:var(--text)]">{otherUser?.name}</h2>
-                <p className="text-xs text-[color:var(--muted)]">online</p>
               </div>
               <div className="relative inline-block">
-            {/* Toggle Button */}
-            <button
-              onClick={() => setMoreVertical(!isMoreVeritical)}
-              className="w-10 h-10 rounded-[1.2rem] neu-surface neu-raised hover:neu-soft transition-all duration-200 active:scale-95"
-              aria-label="More options"
-            >
-              <MoreVertical size={18} className="mx-auto text-[color:var(--muted)]" />
-            </button>
+                {/* Toggle Button */}
+                <button
+                  onClick={() => setMoreVertical(!isMoreVeritical)}
+                  className="w-10 h-10 rounded-[1.2rem] neu-surface neu-raised hover:neu-soft transition-all duration-200 active:scale-95"
+                  aria-label="More options"
+                >
+                  <MoreVertical size={18} className="mx-auto text-[color:var(--muted)]" />
+                </button>
 
-            {/* Dropdown */}
-            {isMoreVeritical && (
-              <div
-                className="absolute right-0 mt-2 w-40 rounded-xl neu-surface neu-raised shadow-lg overflow-hidden animate-fadeIn z-50"
-              >
-                <button
-                  onClick={() => router.push('/home')}
-                  className="w-full px-4 py-2 text-left text-sm hover:bg-gray-200 transition-colors"
-                >
-                  Home
-                </button>
-                <button
-                  onClick={() => router.push('/settings')}
-                  className="w-full px-4 py-2 text-left text-sm hover:bg-gray-200 transition-colors"
-                >
-                  Settings
-                </button>
+                {/* Dropdown */}
+                {isMoreVeritical && (
+                  <div
+                    className="absolute right-0 mt-2 w-40 rounded-xl neu-surface neu-raised shadow-lg overflow-hidden animate-fadeIn z-50"
+                  >
+                    <button
+                      onClick={() => router.push('/home')}
+                      className="w-full px-4 py-2 text-left text-sm hover:bg-gray-200 transition-colors"
+                    >
+                      Home
+                    </button>
+                    <button
+                      onClick={() => router.push('/settings')}
+                      className="w-full px-4 py-2 text-left text-sm hover:bg-gray-200 transition-colors"
+                    >
+                      Settings
+                    </button>
+                  </div>
+                )}
               </div>
-            )}
-          </div>
 
             </div>
 
@@ -303,24 +302,24 @@ export default function ChatPage() {
                 >
                   <div className="max-w-[82%] flex flex-col ">
                     <div
-                      className={`px-4 py-3 rounded-[1.6rem] relative leading-relaxed ${
-                        message.sender === 'me'
+                      className={`px-4 py-3 rounded-[1.6rem] relative leading-relaxed ${message.sender === 'me'
                           ? 'neu-surface neu-raised'
                           : 'neu-surface neu-raised '
-                      }`}
+                        }`}
                       style={message.sender === 'me' ? { background: '#F5D094' } : { background: 'var(--surface)' }}
                     >
                       <p className="text-[13.5px] text-[color:var(--text)]">{message.content}</p>
                     </div>
                     <span
-                      className={`text-[9px] mt-1 px-2 ${
-                        message.sender === 'me' ? 'text-[color:var(--muted)]   text-right' : 'text-[color:var(--muted)] text-left'
-                      }`}
+                      className={`text-[9px] mt-1 px-2 ${message.sender === 'me' ? 'text-[color:var(--muted)]   text-right' : 'text-[color:var(--muted)] text-left'
+                        }`}
                     >
-                      {new Date(message.createdAt!).toLocaleTimeString([], {
-                        hour: "2-digit",
-                        minute: "2-digit",
-                      })}
+                      {(() => {
+                        const d = new Date(message.createdAt!);
+                        const time = d.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', hour12: false });
+                        const date = `${d.getDate()}/${d.getMonth() + 1}/${d.getFullYear()}`;
+                        return `${time}-${date}`;
+                      })()}
                     </span>
                   </div>
                 </div>
@@ -350,11 +349,10 @@ export default function ChatPage() {
                   onMouseUp={() => setIsPressed(false)}
                   onMouseLeave={() => setIsPressed(false)}
                   disabled={!newMessage.trim()}
-                  className={`w-12 h-12 rounded-[1.6rem] flex items-center justify-center transition-all duration-200 ${
-                    newMessage.trim()
+                  className={`w-12 h-12 rounded-[1.6rem] flex items-center justify-center transition-all duration-200 ${newMessage.trim()
                       ? 'neu-surface neu-raised hover:neu-soft'
                       : 'neu-surface neu-inset'
-                  } ${isPressed ? 'scale-95' : 'scale-100'} ${newMessage.trim() ? 'outline outline-[rgba(0,0,0,0.04)]' : ''}`}
+                    } ${isPressed ? 'scale-95' : 'scale-100'} ${newMessage.trim() ? 'outline outline-[rgba(0,0,0,0.04)]' : ''}`}
                   aria-label="Send message"
                 >
                   <Send size={18} className={newMessage.trim() ? 'text-[color:var(--text)]' : 'text-[color:var(--muted)]'} />

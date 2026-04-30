@@ -25,25 +25,25 @@ export default function HomePage() {
       setIsLoadingChats(false);
       return;
     }
-    
+
     const fetchPreviousChats = async () => {
       try {
         setIsLoadingChats(true);
         setChatsError("");
-        
+
         const res = await fetch(`/api/previousChats/${user._id}`);
-        
+
         if (!res.ok) {
           throw new Error(`Failed to fetch previous chats: ${res.status}`);
         }
-        
+
         const data = await res.json();
-        
+
         if (!Array.isArray(data)) {
           console.error("Unexpected response in fetching previous chats:", data);
           throw new Error("Invalid response format from server");
         }
-        
+
         setPreviousChats(data);
       } catch (err) {
         console.error("Error fetching previous chats:", err);
@@ -62,12 +62,12 @@ export default function HomePage() {
       setSearchError("Please enter a username to search");
       return;
     }
-    
+
     try {
       setIsSearching(true);
       setSearchError("");
       setSearchResult(undefined);
-      
+
       const res = await fetch('/api/findUser', {
         method: 'POST',
         headers: {
@@ -75,7 +75,7 @@ export default function HomePage() {
         },
         body: JSON.stringify({ name: searchTerm }),
       });
-      
+
       if (!res.ok) {
         if (res.status === 404) {
           setSearchError(`No user found with username "${searchTerm}"`);
@@ -88,14 +88,14 @@ export default function HomePage() {
         }
         return;
       }
-      
+
       const data = await res.json();
-      
+
       if (!data) {
         setSearchError(`No user found with username "${searchTerm}"`);
         return;
       }
-      
+
       setSearchResult(data);
     } catch (err) {
       console.error("Search error:", err);
@@ -111,7 +111,7 @@ export default function HomePage() {
       setPreviousChats([]);
       setChatsError("");
       setIsLoadingChats(true);
-      
+
       // Small delay to show loading state
       setTimeout(() => {
         fetch(`/api/previousChats/${user._id}`)
@@ -149,23 +149,23 @@ export default function HomePage() {
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-amber-200 via-amber-200 to-amber-300 relative overflow-hidden">
-      
+
       <div className="absolute inset-0 overflow-hidden" aria-hidden="true">
-        <div className="absolute top-20 left-10 w-32 h-32 bg-amber-200 rounded-full opacity-20" 
-             style={{
-               animation: 'float 6s ease-in-out infinite',
-               animationDelay: '0s'
-             }}></div>
+        <div className="absolute top-20 left-10 w-32 h-32 bg-amber-200 rounded-full opacity-20"
+          style={{
+            animation: 'float 6s ease-in-out infinite',
+            animationDelay: '0s'
+          }}></div>
         <div className="absolute top-40 right-20 w-24 h-24 bg-amber-300 rounded-full opacity-30"
-             style={{
-               animation: 'slowFloat 8s ease-in-out infinite', 
-               animationDelay: '2s'
-             }}></div>
+          style={{
+            animation: 'slowFloat 8s ease-in-out infinite',
+            animationDelay: '2s'
+          }}></div>
         <div className="absolute bottom-32 left-1/4 w-20 h-20 bg-amber-400 rounded-full opacity-25"
-             style={{
-               animation: 'float 6s ease-in-out infinite',
-               animationDelay: '4s'
-             }}></div>
+          style={{
+            animation: 'float 6s ease-in-out infinite',
+            animationDelay: '4s'
+          }}></div>
       </div>
 
       {/* Animation keyframes */}
@@ -180,86 +180,70 @@ export default function HomePage() {
         }
       `}</style>
 
-      <div className="relative z-10 flex items-center justify-center min-h-screen p-6">
-        <div 
-          className="bg-white text-gray-700 max-w-[500px] w-full mx-4 p-8 text-left text-sm rounded-2xl transition-all duration-300"
-          style={{
-                boxShadow: 'inset 6px 6px 12px rgba(165, 119, 6, 0.15), inset -6px -6px 12px rgba(165, 119, 6, 0.15)'
-              }}
-        >
-          {/* Header with Settings */}
-          <div className="flex justify-between items-center mb-8">
-            {/* Logo and Title */}
-            <div className="text-center flex-1">
-              <div className="w-16 h-16 bg-amber-200 rounded-2xl flex items-center justify-center mx-auto mb-4">
-                <MessageCircle className="w-8 h-8 text-amber-700" />
+      <div className="relative z-10 flex items-center justify-center min-h-screen p-4 sm:p-6">
+        <div className="neumorph-card max-w-[500px] w-full mx-auto p-6 sm:p-10 flex flex-col space-y-8">
+          
+          {/* Header */}
+          <div className="flex justify-between items-start">
+            <div className="flex-1 text-center pl-10"> {/* Offset for balance with settings button */}
+              <div className="w-20 h-20 bg-amber-200 rounded-3xl flex items-center justify-center mx-auto mb-4 shadow-sm">
+                <MessageCircle className="w-10 h-10 text-amber-700" />
               </div>
-              <h1 className="text-2xl font-bold text-gray-800 mb-2">MeetIN</h1>
-              <p className="text-gray-600 text-sm">Connect with friends seamlessly</p>
+              <h1 className="text-3xl font-extrabold text-gray-900 tracking-tight">MeetIN</h1>
+              <p className="text-gray-500 text-sm mt-1">Connect with friends seamlessly</p>
             </div>
+            
+            <button
+              onClick={() => router.push('/settings')}
+              className="neumorph-icon-button group"
+              title="Settings"
+            >
+              <Settings className="w-5 h-5 text-amber-700 group-hover:rotate-45 transition-transform duration-500" />
+            </button>
           </div>
 
           {/* Search Section */}
-          <div className="mb-8">
-            <div className="flex justify-between ">
-              <h2 className="text-lg font-semibold text-gray-800 mt-3">Find Friends</h2>
-              <button 
-                onClick={() => router.push('/settings')}
-                className="w-10 h-10 bg-amber-200 text-amber-600 border mb-2.5 border-gray-200 rounded-xl flex items-center justify-center transition-all duration-300 hover:border-amber-300 hover:bg-amber-50"
-              >
-                <Settings className="w-5 h-5 text-amber-700 hover: transition-colors" />
-              </button>
+          <section className="space-y-4">
+            <div className="flex items-center justify-between px-1">
+              <h2 className="text-xl font-bold text-gray-800">Find Friends</h2>
             </div>
 
-            {/* Search Error */}
             {searchError && (
-              <div className="mb-4 p-3 bg-red-50 border border-red-200 rounded-xl transition-all duration-300">
-                <div className="flex items-start">
-                  <AlertCircle className="w-4 h-4 text-red-500 mt-0.5 mr-2 flex-shrink-0" />
-                  <p className="text-red-700 text-sm">{searchError}</p>
+              <div className="p-4 bg-red-50 border border-red-200 rounded-xl animate-in fade-in slide-in-from-top-2 duration-300">
+                <div className="flex items-center space-x-3">
+                  <AlertCircle className="w-5 h-5 text-red-500 flex-shrink-0" />
+                  <p className="text-red-700 text-sm font-medium">{searchError}</p>
                 </div>
               </div>
             )}
 
             <div className="space-y-4">
-              <div className={`flex items-center bg-gray-50 border rounded-xl p-3 transition-all duration-300 focus-within:ring-2 focus-within:ring-amber-200 ${
-                searchError ? 'border-red-300 hover:border-red-400 focus-within:border-red-400' : 'border-gray-200 hover:border-amber-300 focus-within:border-amber-400'
-              }`}
-                   style={{
-                     boxShadow: 'inset 3px 3px 6px rgba(0, 0, 0, 0.05), inset -3px -3px 6px rgba(255, 255, 255, 0.9)'
-                   }}>
+              <div className={`neumorph-input-container ${searchError ? 'ring-2 ring-red-200 border-red-300' : ''}`}>
                 <Search className="w-5 h-5 text-gray-400 mr-3" />
                 <input
                   type="text"
-                  placeholder="Search username"
+                  placeholder="Search by username..."
                   value={searchTerm}
                   onChange={(e) => {
                     setSearchTerm(e.target.value);
-                    if (searchError) setSearchError(""); // Clear error when typing
+                    if (searchError) setSearchError("");
                   }}
                   onKeyPress={handleKeyPress}
-                  className="w-full outline-none bg-transparent text-gray-800 placeholder-gray-500 py-1"
+                  className="w-full outline-none bg-transparent text-gray-800 placeholder-gray-400 text-base"
                   disabled={isSearching}
                 />
               </div>
-              
-              <button 
+
+              <button
                 onClick={handleSearch}
                 disabled={isSearching || !searchTerm.trim()}
-                className={`w-full font-semibold py-3 rounded-xl transition-all duration-300 focus:outline-none focus:ring-4 focus:ring-amber-200 flex items-center justify-center ${
-                  isSearching || !searchTerm.trim()
-                    ? 'bg-amber-400 cursor-not-allowed' 
-                    : 'bg-amber-500 hover:bg-amber-600 hover:scale-[1.02] cursor-pointer'
-                } text-white`}
-                style={{
-                  boxShadow: '6px 6px 12px rgba(217, 119, 6, 0.2), -6px -6px 12px rgba(255, 255, 255, 0.9)'
-                }}
+                className={`neumorph-button w-full ${isSearching || !searchTerm.trim() ? 'opacity-70 cursor-not-allowed grayscale-[0.2]' : ''}`}
               >
                 {isSearching ? (
-                  <>
-                    <Loader2 className="w-5 h-5 animate-spin mr-2" />
-                    Searching...
-                  </>
+                  <div className="flex items-center space-x-2">
+                    <Loader2 className="w-5 h-5 animate-spin" />
+                    <span>Searching...</span>
+                  </div>
                 ) : (
                   'Search'
                 )}
@@ -268,129 +252,111 @@ export default function HomePage() {
 
             {/* Search Results */}
             {searchResult && (
-              <div className="mt-6 p-4 bg-gray-50 border border-gray-200 rounded-xl"
-                   style={{
-                     boxShadow: 'inset 3px 3px 6px rgba(0, 0, 0, 0.05), inset -3px -3px 6px rgba(255, 255, 255, 0.9)'
-                   }}>
+              <div className="mt-6 p-5 bg-amber-50/50 border border-amber-100 rounded-xl animate-in zoom-in-95 duration-300">
                 <div className="flex items-center justify-between">
-                  <div className="flex items-center space-x-3">
-                    <div className="w-10 h-10 bg-amber-200 rounded-full flex items-center justify-center">
+                  <div className="flex items-center space-x-4">
+                    <div className="w-12 h-12 ring-2 ring-amber-200 rounded-full overflow-hidden bg-white">
                       <Avatar src={searchResult?.profilePicture} name={searchResult?.name} />
                     </div>
                     <div>
-                      <h3 className="font-semibold text-gray-800">
+                      <h3 className="font-bold text-gray-900">
                         {searchResult.name === user?.name ? `${searchResult.name} (You)` : searchResult.name}
                       </h3>
-
+                      <p className="text-xs text-amber-600 font-medium">Available to chat</p>
                     </div>
                   </div>
-                  <button 
+                  <button
                     onClick={() => router.push(`/chat/${searchResult?.name}`)}
-                    className="px-4 py-2 bg-amber-500 hover:bg-amber-600 text-white text-sm font-medium rounded-lg transition-colors duration-200"
-                    style={{
-                      boxShadow: '3px 3px 6px rgba(217, 119, 6, 0.2), -3px -3px 6px rgba(255, 255, 255, 0.9)'
-                    }}
+                    className="neumorph-button-secondary py-2.5 px-5"
                   >
                     Chat
                   </button>
                 </div>
               </div>
             )}
-          </div>
+          </section>
 
           {/* Previous Conversations */}
-          <div>
-            <div className="flex justify-between items-center mb-4">
-              <h2 className="text-lg font-semibold text-gray-800">Previous Conversations</h2>
+          <section className="space-y-4">
+            <div className="flex justify-between items-center px-1">
+              <h2 className="text-xl font-bold text-gray-800">Recent Chats</h2>
               {chatsError && (
                 <button
                   onClick={retryLoadChats}
                   disabled={isLoadingChats}
-                  className="text-amber-600 hover:text-amber-700 transition-colors duration-200 p-1 rounded-lg hover:bg-amber-50 disabled:opacity-50"
-                  title="Retry loading conversations"
+                  className="p-2 text-amber-600 hover:bg-amber-100 rounded-full transition-colors disabled:opacity-50"
+                  title="Retry loading"
                 >
                   <RefreshCw className={`w-4 h-4 ${isLoadingChats ? 'animate-spin' : ''}`} />
                 </button>
               )}
             </div>
 
-            {/* Chats Error */}
             {chatsError && (
-              <div className="mb-4 p-3 bg-red-50 border border-red-200 rounded-xl transition-all duration-300">
-                <div className="flex items-start justify-between">
-                  <div className="flex items-start">
-                    <AlertCircle className="w-4 h-4 text-red-500 mt-0.5 mr-2 flex-shrink-0" />
+              <div className="p-4 bg-red-50 border border-red-200 rounded-xl">
+                <div className="flex items-center justify-between">
+                  <div className="flex items-center">
+                    <AlertCircle className="w-4 h-4 text-red-500 mr-2" />
                     <p className="text-red-700 text-sm">{chatsError}</p>
                   </div>
                   <button
                     onClick={retryLoadChats}
-                    disabled={isLoadingChats}
-                    className="text-red-600 hover:text-red-700 text-sm font-medium underline disabled:opacity-50"
+                    className="text-red-600 text-xs font-bold uppercase tracking-wider hover:underline"
                   >
                     Retry
                   </button>
                 </div>
               </div>
             )}
-            
+
             {isLoadingChats ? (
-              <div className="text-center py-8">
-                <div className="w-16 h-16 mx-auto mb-4 bg-gray-50 border border-gray-200 rounded-xl flex items-center justify-center"
-                     style={{
-                       boxShadow: 'inset 3px 3px 6px rgba(0, 0, 0, 0.05), inset -3px -3px 6px rgba(255, 255, 255, 0.9)'
-                     }}>
-                  <Loader2 className="w-8 h-8 text-gray-400 animate-spin" />
+              <div className="text-center py-12 space-y-4">
+                <div className="w-16 h-16 mx-auto bg-gray-50 rounded-2xl flex items-center justify-center animate-pulse border border-gray-100">
+                  <Loader2 className="w-8 h-8 text-amber-400 animate-spin" />
                 </div>
-                <p className="text-gray-600 text-sm">Loading conversations...</p>
+                <p className="text-gray-400 text-sm font-medium">Syncing your conversations...</p>
               </div>
             ) : previousChats.length > 0 ? (
-              <div className="space-y-3 max-h-60 overflow-y-auto">
+              <div className="space-y-3 max-h-[300px] overflow-y-auto pr-1 custom-scrollbar">
                 {previousChats.map((chat) => (
-                  <div 
+                  <div
                     key={chat._id}
-                    className="p-4 bg-gray-50 border border-gray-200 rounded-xl transition-all duration-200 hover:border-amber-300"
-                    style={{
-                      boxShadow: 'inset 3px 3px 6px rgba(0, 0, 0, 0.05), inset -3px -3px 6px rgba(255, 255, 255, 0.9)'
-                    }}
+                    className="group p-4 bg-gray-50/50 border border-gray-100 rounded-2xl hover:border-amber-300 hover:bg-white transition-all duration-300"
                   >
                     <div className="flex items-center justify-between">
-                      <div className="flex items-center space-x-3">
-                        <div className="w-10 h-10 bg-amber-200 rounded-full flex items-center justify-center">
+                      <div className="flex items-center space-x-4">
+                        <div className="w-12 h-12 rounded-full border-2 border-white shadow-sm overflow-hidden bg-amber-100">
                           <Avatar src={chat?.profilePicture} name={chat?.name} />
                         </div>
                         <div>
-                          <h3 className="font-semibold text-gray-800">{chat.name}</h3>
+                          <h3 className="font-bold text-gray-800 group-hover:text-amber-700 transition-colors uppercase tracking-tight text-sm">
+                            {chat.name}
+                          </h3>
                         </div>
                       </div>
-                      <button 
+                      <button
                         onClick={() => router.push(`/chat/${chat.name}`)}
-                        className="px-4 py-2 bg-amber-500 hover:bg-amber-600 text-white text-sm font-medium rounded-lg transition-colors duration-200"
-                        style={{
-                          boxShadow: '3px 3px 6px rgba(217, 119, 6, 0.2), -3px -3px 6px rgba(255, 255, 255, 0.9)'
-                        }}
-                        disabled={isLoadingChats}
+                        className="neumorph-button-secondary opacity-80 group-hover:opacity-100"
                       >
-                        Continue
+                        Open
                       </button>
                     </div>
                   </div>
                 ))}
               </div>
             ) : (
-              <div className="text-center py-8">
-                <div className="w-16 h-16 mx-auto mb-4 bg-gray-50 border border-gray-200 rounded-xl flex items-center justify-center"
-                     style={{
-                       boxShadow: 'inset 3px 3px 6px rgba(0, 0, 0, 0.05), inset -3px -3px 6px rgba(255, 255, 255, 0.9)'
-                     }}>
-                  <MessageCircle className="w-8 h-8 text-gray-400" />
+              <div className="text-center py-12 bg-gray-50/50 rounded-3xl border border-dashed border-gray-200">
+                <div className="w-16 h-16 mx-auto mb-4 bg-white rounded-2xl flex items-center justify-center shadow-sm">
+                  <MessageCircle className="w-8 h-8 text-gray-300" />
                 </div>
-                <p className="text-gray-600 text-sm mb-1">No previous conversations</p>
-                <p className="text-gray-500 text-xs">Start chatting to see your conversations here</p>
+                <p className="text-gray-500 font-medium">No messages yet</p>
+                <p className="text-gray-400 text-xs mt-1">Start a search to find friends</p>
               </div>
             )}
-          </div>
+          </section>
         </div>
       </div>
+
     </div>
   );
 }

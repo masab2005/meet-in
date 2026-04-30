@@ -40,7 +40,7 @@ export default function ForgetPasswordPage(){
                 return
             }
             
-            const data = await res.json()
+            await res.json()
             setSuccess(true);
         } catch (error) {
             console.error("Reset password error:", error);
@@ -83,66 +83,55 @@ export default function ForgetPasswordPage(){
               }
             `}</style>
 
-            <div 
-                className="relative z-10 bg-white text-gray-700 max-w-[400px] w-full mx-4 p-8 text-left text-sm rounded-2xl transition-all duration-300 hover:scale-[1.01]"
-                style={{
-                    boxShadow: 'inset 6px 6px 12px rgba(165, 119, 6, 0.15), inset -6px -6px 12px rgba(165, 119, 6, 0.15)'
-                }}
-            >
+            <div className="relative z-10 neumorph-card max-w-[420px] w-full mx-4 p-8 sm:p-10 animate-in fade-in zoom-in-95 duration-500">
                 {/* Back button */}
                 <button
                     onClick={() => router.push("/login")}
                     disabled={isLoading}
-                    className={`mb-4 flex items-center text-amber-600 hover:text-amber-700 transition-colors duration-200 ${
-                        isLoading ? 'opacity-50 cursor-not-allowed' : ''
-                    }`}
+                    className="group mb-8 flex items-center text-amber-600 hover:text-amber-700 font-bold text-xs uppercase tracking-widest transition-all"
                 >
-                    <ArrowLeft className="w-4 h-4 mr-2" />
+                    <ArrowLeft className="w-4 h-4 mr-2 group-hover:-translate-x-1 transition-transform" />
                     Back to Login
                 </button>
 
                 {!success ? (
-                    <form onSubmit={handleSubmit}>
+                    <form onSubmit={handleSubmit} className="space-y-8">
                         {/* Logo and Title */}
-                        <div className="text-center mb-8">
-                            <div className="w-16 h-16 bg-amber-200 rounded-2xl flex items-center justify-center mx-auto mb-4">
+                        <div className="text-center">
+                            <div className="w-16 h-16 bg-amber-200 rounded-2xl flex items-center justify-center mx-auto mb-4 shadow-sm">
                                 <MessageCircle className="w-8 h-8 text-amber-700" />
                             </div>
-                            <h2 className="text-2xl font-bold text-gray-800 mb-2">Forgot Password?</h2>
-                            <p className="text-gray-600 text-sm">Enter your email and we will send you a reset link</p>
+                            <h2 className="text-2xl font-extrabold text-gray-900 tracking-tight">Email Recovery</h2>
+                            <p className="text-gray-500 text-sm mt-1 px-4">Enter your email and we&apos;ll send a reset link</p>
                         </div>
 
                         {/* Error Message */}
                         {error && (
-                            <div className="mb-6 p-4 bg-red-50 border border-red-200 rounded-xl transition-all duration-300">
+                            <div className="p-4 bg-red-50 border border-red-200 rounded-xl animate-in shake duration-300">
                                 <div className="flex items-start">
                                     <AlertCircle className="w-5 h-5 text-red-500 mt-0.5 mr-3 flex-shrink-0" />
                                     <div>
-                                        <h4 className="text-red-800 font-medium text-sm mb-1">Error</h4>
-                                        <p className="text-red-700 text-sm">{error}</p>
+                                        <h4 className="text-red-800 font-bold text-sm">Error</h4>
+                                        <p className="text-red-700 text-xs mt-1">{error}</p>
                                     </div>
                                 </div>
                             </div>
                         )}
 
                         {/* Email Input */}
-                        <div className="mb-6">
-                            <div className={`flex items-center bg-gray-50 border rounded-xl p-3 transition-all duration-300 focus-within:ring-2 focus-within:ring-amber-200 ${
-                                error ? 'border-red-300 hover:border-red-400 focus-within:border-red-400' : 'border-gray-200 hover:border-amber-300 focus-within:border-amber-400'
-                            }`}
-                                 style={{
-                                   boxShadow: 'inset 3px 3px 6px rgba(0, 0, 0, 0.05), inset -3px -3px 6px rgba(255, 255, 255, 0.9)'
-                                 }}>
+                        <div className="space-y-1.5">
+                            <label className="text-[10px] font-bold text-gray-400 uppercase tracking-widest ml-1">Account Email</label>
+                            <div className={`neumorph-input-container ${error ? 'ring-2 ring-red-200 border-red-300' : ''}`}>
                                 <Mail className="w-5 h-5 text-gray-400 mr-3" />
                                 <input
-                                    className="w-full outline-none bg-transparent text-gray-800 placeholder-gray-500 py-1"
+                                    className="w-full outline-none bg-transparent text-gray-800 placeholder-gray-400 py-1"
                                     type="email"
                                     value={email}
                                     onChange={(e) => {
                                         setEmail(e.target.value);
-                                        if (error) setError(""); // Clear error when user starts typing
+                                        if (error) setError("");
                                     }}
-                                    placeholder="Enter your email"
+                                    placeholder="name@example.com"
                                     required
                                     disabled={isLoading}
                                 />
@@ -153,63 +142,57 @@ export default function ForgetPasswordPage(){
                         <button 
                             type="submit" 
                             disabled={isLoading || !email}
-                            className={`w-full mb-4 cursor-pointer font-semibold py-3 rounded-xl transition-all duration-300 focus:outline-none focus:ring-4 focus:ring-amber-200 flex items-center justify-center ${
-                                isLoading || !email
-                                    ? 'bg-amber-600 cursor-not-allowed opacity-70' 
-                                    : 'bg-amber-500 hover:bg-amber-600 hover:scale-[1.02]'
-                            } text-white`}
-                            style={{
-                                boxShadow: '6px 6px 12px rgba(217, 119, 6, 0.2), -6px -6px 12px rgba(255, 255, 255, 0.9)'
-                            }}
+                            className={`neumorph-button w-full ${isLoading || !email ? 'opacity-70 cursor-not-allowed grayscale-[0.2]' : ''}`}
                         >
                             {isLoading ? (
-                                <>
-                                    <Loader2 className="w-5 h-5 animate-spin mr-2" />
-                                    Sending Reset Link...
-                                </>
+                                <div className="flex items-center space-x-2">
+                                    <Loader2 className="w-5 h-5 animate-spin" />
+                                    <span>Sending Link...</span>
+                                </div>
                             ) : (
-                                'Send Reset Link'
+                                'Send reset link'
                             )}
                         </button>
                     </form>
                 ) : (
                     /* Success Message */
-                    <div className="text-center">
-                        <div className="w-16 h-16 bg-green-100 rounded-2xl flex items-center justify-center mx-auto mb-4">
-                            <CheckCircle className="w-8 h-8 text-green-600" />
+                    <div className="text-center space-y-8 animate-in fade-in zoom-in-95 duration-500">
+                        <div className="w-20 h-20 bg-green-50 rounded-full flex items-center justify-center mx-auto mb-4 border-4 border-white shadow-sm">
+                            <CheckCircle className="w-10 h-10 text-green-500" />
                         </div>
-                        <h2 className="text-2xl font-bold text-gray-800 mb-2">Check Your Email</h2>
-                        <p className="text-gray-600 text-sm mb-6">
-                            We have sent a password reset link to <strong>{email}</strong>
-                        </p>
-                        <p className="text-gray-500 text-xs mb-6">
-                            Did not receive the email? Check your spam folder or try again in a few minutes.
-                        </p>
+                        <div className="space-y-2">
+                            <h2 className="text-2xl font-extrabold text-gray-900 tracking-tight">Check Inbox</h2>
+                            <p className="text-gray-500 text-sm">
+                                Link sent to <br/><span className="text-gray-900 font-bold">{email}</span>
+                            </p>
+                        </div>
                         
-                        <div className="space-y-3">
+                        <div className="pt-4 space-y-4">
                             <button
                                 onClick={() => {
                                     setSuccess(false);
                                     setEmail("");
                                 }}
-                                className="w-full bg-gray-100 hover:bg-gray-200 text-gray-700 font-semibold py-3 rounded-xl transition-all duration-300 hover:scale-[1.02]"
+                                className="w-full bg-gray-50 hover:bg-gray-100 text-gray-600 font-bold py-3 rounded-xl transition-all border border-gray-100"
                             >
-                                Try Another Email
+                                Use different email
                             </button>
                             
                             <button
-                                className="w-full cursor-pointer bg-amber-500 hover:bg-amber-600 text-white font-semibold py-3 rounded-xl transition-all duration-300 hover:scale-[1.02]"
+                                className="neumorph-button w-full"
                                 onClick={() => router.push("/login")}
-                                style={{
-                                    boxShadow: '6px 6px 12px rgba(217, 119, 6, 0.2), -6px -6px 12px rgba(255, 255, 255, 0.9)'
-                                }}
                             >
-                                Back to Login
+                                Return to Login
                             </button>
                         </div>
+
+                        <p className="text-[10px] text-gray-400 px-6 italic">
+                            Didn&apos;t get the email? Check spam or wait a few minutes.
+                        </p>
                     </div>
                 )}
             </div>
+
         </div>
     )
 }

@@ -79,18 +79,19 @@ function ResetPasswordContent() {
     if (!token || !email) {
         return (
             <div className="flex items-center justify-center min-h-screen bg-gradient-to-br from-amber-200 via-amber-200 to-amber-300">
-                <div className="bg-white text-gray-700 max-w-[400px] w-full mx-4 p-8 text-center rounded-2xl"
-                     style={{
-                         boxShadow: 'inset 6px 6px 12px rgba(165, 119, 6, 0.15), inset -6px -6px 12px rgba(165, 119, 6, 0.15)'
-                     }}>
-                    <AlertCircle className="w-16 h-16 text-red-500 mx-auto mb-4" />
-                    <h2 className="text-xl font-bold text-gray-800 mb-2">Invalid Reset Link</h2>
-                    <p className="text-gray-600 mb-6">This password reset link is invalid or has expired.</p>
+                <div className="neumorph-card max-w-[420px] w-full mx-4 p-8 text-center space-y-6">
+                    <div className="w-20 h-20 bg-red-50 rounded-full flex items-center justify-center mx-auto shadow-sm">
+                        <AlertCircle className="w-10 h-10 text-red-500" />
+                    </div>
+                    <div className="space-y-2">
+                        <h2 className="text-2xl font-extrabold text-gray-900 tracking-tight">Invalid Link</h2>
+                        <p className="text-gray-500 text-sm">This password reset link is invalid or has expired.</p>
+                    </div>
                     <button
                         onClick={() => router.push("/forget-password")}
-                        className="w-full bg-amber-500 hover:bg-amber-600 text-white font-semibold py-3 rounded-xl transition-all duration-300"
+                        className="neumorph-button w-full"
                     >
-                        Request New Reset Link
+                        Request New Link
                     </button>
                 </div>
             </div>
@@ -130,150 +131,125 @@ function ResetPasswordContent() {
               }
             `}</style>
 
-            <div 
-                className="relative z-10 bg-white text-gray-700 max-w-[400px] w-full mx-4 p-8 text-left text-sm rounded-2xl transition-all duration-300 hover:scale-[1.01]"
-                style={{
-                    boxShadow: 'inset 6px 6px 12px rgba(165, 119, 6, 0.15), inset -6px -6px 12px rgba(165, 119, 6, 0.15)'
-                }}
-            >
+            <div className="relative z-10 neumorph-card max-w-[420px] w-full mx-4 p-8 sm:p-10 animate-in fade-in zoom-in-95 duration-500">
                 {!success ? (
-                    <form onSubmit={handleSubmit}>
+                    <form onSubmit={handleSubmit} className="space-y-8">
                         {/* Logo and Title */}
-                        <div className="text-center mb-8">
-                            <div className="w-16 h-16 bg-amber-200 rounded-2xl flex items-center justify-center mx-auto mb-4">
+                        <div className="text-center">
+                            <div className="w-16 h-16 bg-amber-200 rounded-2xl flex items-center justify-center mx-auto mb-4 shadow-sm">
                                 <MessageCircle className="w-8 h-8 text-amber-700" />
                             </div>
-                            <h2 className="text-2xl font-bold text-gray-800 mb-2">Reset Password</h2>
-                            <p className="text-gray-600 text-sm">Enter your new password below</p>
+                            <h2 className="text-2xl font-extrabold text-gray-900 tracking-tight">New Password</h2>
+                            <p className="text-gray-500 text-sm mt-1 px-4">Set a strong password for your account</p>
                         </div>
 
                         {/* Error Message */}
                         {error && (
-                            <div className="mb-6 p-4 bg-red-50 border border-red-200 rounded-xl transition-all duration-300">
+                            <div className="p-4 bg-red-50 border border-red-200 rounded-xl animate-in shake duration-300">
                                 <div className="flex items-start">
                                     <AlertCircle className="w-5 h-5 text-red-500 mt-0.5 mr-3 flex-shrink-0" />
                                     <div>
-                                        <h4 className="text-red-800 font-medium text-sm mb-1">Error</h4>
-                                        <p className="text-red-700 text-sm">{error}</p>
+                                        <h4 className="text-red-800 font-bold text-sm">Error</h4>
+                                        <p className="text-red-700 text-xs mt-1">{error}</p>
                                     </div>
                                 </div>
                             </div>
                         )}
 
-                        {/* New Password Input */}
-                        <div className="mb-4">
-                            <div className={`flex items-center bg-gray-50 border rounded-xl p-3 transition-all duration-300 focus-within:ring-2 focus-within:ring-amber-200 ${
-                                error ? 'border-red-300 hover:border-red-400 focus-within:border-red-400' : 'border-gray-200 hover:border-amber-300 focus-within:border-amber-400'
-                            }`}
-                                 style={{
-                                   boxShadow: 'inset 3px 3px 6px rgba(0, 0, 0, 0.05), inset -3px -3px 6px rgba(255, 255, 255, 0.9)'
-                                 }}>
-                                <Lock className="w-5 h-5 text-gray-400 mr-3" />
-                                <input
-                                    className="w-full outline-none bg-transparent text-gray-800 placeholder-gray-500 py-1"
-                                    type={showPassword ? "text" : "password"}
-                                    placeholder="New Password"
-                                    value={password}
-                                    onChange={(e) => {
-                                        setPassword(e.target.value);
-                                        if (error) setError(null);
-                                    }}
-                                    required
-                                    disabled={loading}
-                                    minLength={6}
-                                />
-                                <button
-                                    type="button"
-                                    onClick={() => setShowPassword(prev => !prev)}
-                                    className="text-gray-400 hover:text-gray-600 transition-colors duration-200 p-1 rounded-lg hover:bg-gray-100 disabled:opacity-50"
-                                    disabled={loading}
-                                >
-                                    {showPassword ? <EyeOff size={18} /> : <Eye size={18} />}
-                                </button>
+                        <div className="space-y-4">
+                            {/* New Password Input */}
+                            <div className="space-y-1.5">
+                                <label className="text-[10px] font-bold text-gray-400 uppercase tracking-widest ml-1">New Password</label>
+                                <div className={`neumorph-input-container ${error ? 'ring-2 ring-red-200 border-red-300' : ''}`}>
+                                    <Lock className="w-5 h-5 text-gray-400 mr-3" />
+                                    <input
+                                        className="w-full outline-none bg-transparent text-gray-800 placeholder-gray-400 py-1"
+                                        type={showPassword ? "text" : "password"}
+                                        placeholder="••••••••"
+                                        value={password}
+                                        onChange={(e) => {
+                                            setPassword(e.target.value);
+                                            if (error) setError(null);
+                                        }}
+                                        required
+                                        disabled={loading}
+                                        minLength={6}
+                                    />
+                                    <button
+                                        type="button"
+                                        onClick={() => setShowPassword(prev => !prev)}
+                                        className="text-gray-400 hover:text-gray-600 p-1"
+                                        disabled={loading}
+                                    >
+                                        {showPassword ? <EyeOff size={18} /> : <Eye size={18} />}
+                                    </button>
+                                </div>
                             </div>
-                        </div>
 
-                        {/* Confirm Password Input */}
-                        <div className="mb-6">
-                            <div className={`flex items-center bg-gray-50 border rounded-xl p-3 transition-all duration-300 focus-within:ring-2 focus-within:ring-amber-200 ${
-                                error ? 'border-red-300 hover:border-red-400 focus-within:border-red-400' : 'border-gray-200 hover:border-amber-300 focus-within:border-amber-400'
-                            }`}
-                                 style={{
-                                   boxShadow: 'inset 3px 3px 6px rgba(0, 0, 0, 0.05), inset -3px -3px 6px rgba(255, 255, 255, 0.9)'
-                                 }}>
-                                <Lock className="w-5 h-5 text-gray-400 mr-3" />
-                                <input
-                                    className="w-full outline-none bg-transparent text-gray-800 placeholder-gray-500 py-1"
-                                    type={showConfirmPassword ? "text" : "password"}
-                                    placeholder="Confirm Password"
-                                    value={confirmPassword}
-                                    onChange={(e) => {
-                                        setConfirmPassword(e.target.value);
-                                        if (error) setError(null);
-                                    }}
-                                    required
-                                    disabled={loading}
-                                    minLength={6}
-                                />
-                                <button
-                                    type="button"
-                                    onClick={() => setShowConfirmPassword(prev => !prev)}
-                                    className="text-gray-400 hover:text-gray-600 transition-colors duration-200 p-1 rounded-lg hover:bg-gray-100 disabled:opacity-50"
-                                    disabled={loading}
-                                >
-                                    {showConfirmPassword ? <EyeOff size={18} /> : <Eye size={18} />}
-                                </button>
+                            {/* Confirm Password Input */}
+                            <div className="space-y-1.5">
+                                <label className="text-[10px] font-bold text-gray-400 uppercase tracking-widest ml-1">Confirm Password</label>
+                                <div className={`neumorph-input-container ${error ? 'ring-2 ring-red-200 border-red-300' : ''}`}>
+                                    <Lock className="w-5 h-5 text-gray-400 mr-3" />
+                                    <input
+                                        className="w-full outline-none bg-transparent text-gray-800 placeholder-gray-400 py-1"
+                                        type={showConfirmPassword ? "text" : "password"}
+                                        placeholder="••••••••"
+                                        value={confirmPassword}
+                                        onChange={(e) => {
+                                            setConfirmPassword(e.target.value);
+                                            if (error) setError(null);
+                                        }}
+                                        required
+                                        disabled={loading}
+                                        minLength={6}
+                                    />
+                                    <button
+                                        type="button"
+                                        onClick={() => setShowConfirmPassword(prev => !prev)}
+                                        className="text-gray-400 hover:text-gray-600 p-1"
+                                        disabled={loading}
+                                    >
+                                        {showConfirmPassword ? <EyeOff size={18} /> : <Eye size={18} />}
+                                    </button>
+                                </div>
                             </div>
-                        </div>
-
-                        {/* Password Requirements */}
-                        <div className="mb-6 text-xs text-gray-500">
-                            <p>Password must be at least 6 characters long</p>
                         </div>
 
                         {/* Reset Button */}
                         <button 
                             type="submit" 
                             disabled={loading || !password || !confirmPassword}
-                            className={`w-full mb-4 cursor-pointer font-semibold py-3 rounded-xl transition-all duration-300 focus:outline-none focus:ring-4 focus:ring-amber-200 flex items-center justify-center ${
-                                loading || !password || !confirmPassword
-                                    ? 'bg-amber-400 cursor-not-allowed opacity-70' 
-                                    : 'bg-amber-500 hover:bg-amber-600 hover:scale-[1.02]'
-                            } text-white`}
-                            style={{
-                                boxShadow: '6px 6px 12px rgba(217, 119, 6, 0.2), -6px -6px 12px rgba(255, 255, 255, 0.9)'
-                            }}
+                            className={`neumorph-button w-full ${loading || !password || !confirmPassword ? 'opacity-70 cursor-not-allowed grayscale-[0.2]' : ''}`}
                         >
                             {loading ? (
-                                <>
-                                    <Loader2 className="w-5 h-5 animate-spin mr-2" />
-                                    Resetting Password...
-                                </>
+                                <div className="flex items-center space-x-2">
+                                    <Loader2 className="w-5 h-5 animate-spin" />
+                                    <span>Resetting...</span>
+                                </div>
                             ) : (
-                                'Reset Password'
+                                'Reset password'
                             )}
                         </button>
-
                     </form>
                 ) : (
                     /* Success Message */
-                    <div className="text-center">
-                        <div className="w-16 h-16 bg-green-100 rounded-2xl flex items-center justify-center mx-auto mb-4">
-                            <CheckCircle className="w-8 h-8 text-green-600" />
+                    <div className="text-center space-y-8 animate-in fade-in zoom-in-95 duration-500">
+                        <div className="w-20 h-20 bg-green-50 rounded-full flex items-center justify-center mx-auto border-4 border-white shadow-sm">
+                            <CheckCircle className="w-10 h-10 text-green-500" />
                         </div>
-                        <h2 className="text-2xl font-bold text-gray-800 mb-2">Password Reset Successful</h2>
-                        <p className="text-gray-600 text-sm mb-6">
-                            Your password has been successfully reset. You can now login with your new password.
-                        </p>
+                        <div className="space-y-2">
+                            <h2 className="text-2xl font-extrabold text-gray-900 tracking-tight">All Set!</h2>
+                            <p className="text-gray-500 text-sm">
+                                Your password has been successfully updated.
+                            </p>
+                        </div>
                         
                         <button
                             onClick={() => router.push("/login")}
-                            className="w-full bg-amber-500 hover:bg-amber-600 text-white font-semibold py-3 rounded-xl transition-all duration-300 hover:scale-[1.02]"
-                            style={{
-                                boxShadow: '6px 6px 12px rgba(217, 119, 6, 0.2), -6px -6px 12px rgba(255, 255, 255, 0.9)'
-                            }}
+                            className="neumorph-button w-full"
                         >
-                            Go to Login
+                            Return to Login
                         </button>
                     </div>
                 )}
@@ -287,10 +263,10 @@ export default function ResetPasswordPage() {
         <Suspense
             fallback={
                 <div className="flex items-center justify-center min-h-screen bg-gradient-to-br from-amber-200 via-amber-200 to-amber-300">
-                    <div className="bg-white text-gray-700 max-w-[400px] w-full mx-4 p-8 text-center rounded-2xl" style={{ boxShadow: 'inset 6px 6px 12px rgba(165, 119, 6, 0.15), inset -6px -6px 12px rgba(165, 119, 6, 0.15)' }}>
-                        <div className="flex items-center justify-center">
-                            <Loader2 className="w-6 h-6 animate-spin text-amber-600 mr-2" />
-                            <span>Loading...</span>
+                    <div className="neumorph-card max-w-[420px] w-full mx-4 p-8 text-center">
+                        <div className="flex items-center justify-center space-x-3">
+                            <Loader2 className="w-6 h-6 animate-spin text-amber-600" />
+                            <span className="font-bold text-gray-500 uppercase tracking-widest text-xs">Loading Security Layer...</span>
                         </div>
                     </div>
                 </div>
@@ -299,4 +275,4 @@ export default function ResetPasswordPage() {
             <ResetPasswordContent />
         </Suspense>
     )
-}
+}

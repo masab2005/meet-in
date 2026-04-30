@@ -73,11 +73,11 @@ function RegisterPage() {
 
   const handleSumit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    
+
     // Reset previous states
     setError("");
     setSuccess("");
-    
+
     // Validate form
     if (!validateForm()) {
       return;
@@ -128,7 +128,7 @@ function RegisterPage() {
       }
 
       setSuccess("Account created successfully! Redirecting to login...");
-      
+
       // Redirect after showing success message
       setTimeout(() => {
         router.push("/login");
@@ -161,21 +161,21 @@ function RegisterPage() {
       <form onSubmit={handleSumit}>
         {/* Animated background elements */}
         <div className="absolute inset-0 overflow-hidden" aria-hidden="true">
-          <div className="absolute top-20 left-10 w-32 h-32 bg-amber-200 rounded-full opacity-20" 
-               style={{
-                 animation: 'float 6s ease-in-out infinite',
-                 animationDelay: '0s'
-               }}></div>
+          <div className="absolute top-20 left-10 w-32 h-32 bg-amber-200 rounded-full opacity-20"
+            style={{
+              animation: 'float 6s ease-in-out infinite',
+              animationDelay: '0s'
+            }}></div>
           <div className="absolute top-40 right-20 w-24 h-24 bg-amber-300 rounded-full opacity-30"
-               style={{
-                 animation: 'slowFloat 8s ease-in-out infinite', 
-                 animationDelay: '2s'
-               }}></div>
+            style={{
+              animation: 'slowFloat 8s ease-in-out infinite',
+              animationDelay: '2s'
+            }}></div>
           <div className="absolute bottom-32 left-1/4 w-20 h-20 bg-amber-400 rounded-full opacity-25"
-               style={{
-                 animation: 'float 6s ease-in-out infinite',
-                 animationDelay: '4s'
-               }}></div>
+            style={{
+              animation: 'float 6s ease-in-out infinite',
+              animationDelay: '4s'
+            }}></div>
         </div>
 
         {/* Animation keyframes */}
@@ -190,225 +190,201 @@ function RegisterPage() {
           }
         `}</style>
 
-        <div 
-          className="relative z-10 bg-white text-gray-700 max-w-[400px] w-full mx-4 p-8 text-left text-sm rounded-2xl transition-all duration-300 hover:scale-[1.01]"
-          style={{
-                boxShadow: 'inset 6px 6px 12px rgba(165, 119, 6, 0.15), inset -6px -6px 12px rgba(165, 119, 6, 0.15)'
-              }}
-        >
+        <div className="relative z-10 neumorph-card max-w-[420px] w-full mx-auto p-8 sm:p-10 space-y-6 animate-in fade-in zoom-in-95 duration-500">
           {/* Logo and Title */}
-          <div className="text-center mb-8">
-            <div className="w-16 h-16 bg-amber-200 rounded-2xl flex items-center justify-center mx-auto mb-4">
+          <div className="text-center">
+            <div className="w-16 h-16 bg-amber-200 rounded-2xl flex items-center justify-center mx-auto mb-4 shadow-sm">
               <MessageCircle className="w-8 h-8 text-amber-700" />
             </div>
-            <h2 className="text-2xl font-bold text-gray-800 mb-2">Create Account</h2>
-            <p className="text-gray-600 text-sm">Sign up for your MeetIN account</p>
+            <h2 className="text-2xl font-extrabold text-gray-900 tracking-tight">Create Account</h2>
+            <p className="text-gray-500 text-sm mt-1">Sign up for your MeetIN account</p>
           </div>
 
-          {/* Success Message */}
-          {success && (
-            <div className="mb-6 p-4 bg-green-50 border border-green-200 rounded-xl transition-all duration-300">
-              <div className="flex items-start">
-                <CheckCircle className="w-5 h-5 text-green-500 mt-0.5 mr-3 flex-shrink-0" />
-                <div>
-                  <h4 className="text-green-800 font-medium text-sm mb-1">Success!</h4>
-                  <p className="text-green-700 text-sm">{success}</p>
+          {/* Messages */}
+          <div className="space-y-4">
+            {success && (
+              <div className="p-4 bg-green-50 border border-green-200 rounded-xl animate-in slide-in-from-top-2 duration-300">
+                <div className="flex items-start">
+                  <CheckCircle className="w-5 h-5 text-green-500 mt-0.5 mr-3 flex-shrink-0" />
+                  <div>
+                    <h4 className="text-green-800 font-bold text-sm">Success!</h4>
+                    <p className="text-green-700 text-xs mt-1">{success}</p>
+                  </div>
                 </div>
               </div>
-            </div>
-          )}
+            )}
 
-          {/* General Error Message */}
-          {error && (
-            <div className="mb-6 p-4 bg-red-50 border border-red-200 rounded-xl transition-all duration-300">
-              <div className="flex items-start">
-                <AlertCircle className="w-5 h-5 text-red-500 mt-0.5 mr-3 flex-shrink-0" />
-                <div>
-                  <h4 className="text-red-800 font-medium text-sm mb-1">Registration Failed</h4>
-                  <p className="text-red-700 text-sm">{error}</p>
+            {error && (
+              <div className="p-4 bg-red-50 border border-red-200 rounded-xl animate-in shake duration-300">
+                <div className="flex items-start">
+                  <AlertCircle className="w-5 h-5 text-red-500 mt-0.5 mr-3 flex-shrink-0" />
+                  <div>
+                    <h4 className="text-red-800 font-bold text-sm">Action Required</h4>
+                    <p className="text-red-700 text-xs mt-1">{error}</p>
+                  </div>
                 </div>
               </div>
-            </div>
-          )}
-
-          {/* Name Input */}
-          <div className="mb-4">
-            <div className={`flex items-center bg-gray-50 border rounded-xl p-3 transition-all duration-300 focus-within:ring-2 focus-within:ring-amber-200 ${
-              fieldErrors.name ? 'border-red-300 hover:border-red-400 focus-within:border-red-400' : 'border-gray-200 hover:border-amber-300 focus-within:border-amber-400'
-            }`}
-                 style={{
-                   boxShadow: 'inset 3px 3px 6px rgba(0, 0, 0, 0.05), inset -3px -3px 6px rgba(255, 255, 255, 0.9)'
-                 }}>
-              <User className="w-5 h-5 text-gray-400 mr-3" />
-              <input
-                className="w-full outline-none bg-transparent text-gray-800 placeholder-gray-500 py-1"
-                type="text"
-                value={name}
-                onChange={(e) => {
-                  setName(e.target.value);
-                  clearFieldError('name');
-                }}
-                placeholder="Full Name"
-                required
-                disabled={isLoading}
-              />
-            </div>
-            {fieldErrors.name && (
-              <p className="mt-1 text-red-600 text-xs flex items-center">
-                <AlertCircle className="w-3 h-3 mr-1" />
-                {fieldErrors.name}
-              </p>
             )}
           </div>
 
-          {/* Email Input */}
-          <div className="mb-4">
-            <div className={`flex items-center bg-gray-50 border rounded-xl p-3 transition-all duration-300 focus-within:ring-2 focus-within:ring-amber-200 ${
-              fieldErrors.email ? 'border-red-300 hover:border-red-400 focus-within:border-red-400' : 'border-gray-200 hover:border-amber-300 focus-within:border-amber-400'
-            }`}
-                 style={{
-                   boxShadow: 'inset 3px 3px 6px rgba(0, 0, 0, 0.05), inset -3px -3px 6px rgba(255, 255, 255, 0.9)'
-                 }}>
-              <Mail className="w-5 h-5 text-gray-400 mr-3" />
-              <input
-                className="w-full outline-none bg-transparent text-gray-800 placeholder-gray-500 py-1"
-                type="email"
-                value={email}
-                onChange={(e) => {
-                  setEmail(e.target.value);
-                  clearFieldError('email');
-                }}
-                placeholder="Email"
-                required
-                disabled={isLoading}
-              />
+          <div className="space-y-4 pt-2">
+            {/* Name Input */}
+            <div className="space-y-1">
+              <label className="text-[10px] font-bold text-gray-400 uppercase tracking-widest ml-1">Full Name</label>
+              <div className={`neumorph-input-container !p-2.5 ${fieldErrors.name ? 'ring-2 ring-red-200 border-red-300' : ''}`}>
+                <User className="w-4 h-4 text-gray-400 mx-2" />
+                <input
+                  className="w-full outline-none bg-transparent text-gray-800 placeholder-gray-400 text-sm"
+                  type="text"
+                  value={name}
+                  onChange={(e) => {
+                    setName(e.target.value);
+                    clearFieldError('name');
+                  }}
+                  placeholder="John Doe"
+                  required
+                  disabled={isLoading}
+                />
+              </div>
+              {fieldErrors.name && (
+                <p className="mt-1 text-red-600 text-[10px] font-medium flex items-center ml-1">
+                  <AlertCircle className="w-2.5 h-2.5 mr-1" />
+                  {fieldErrors.name}
+                </p>
+              )}
             </div>
-            {fieldErrors.email && (
-              <p className="mt-1 text-red-600 text-xs flex items-center">
-                <AlertCircle className="w-3 h-3 mr-1" />
-                {fieldErrors.email}
-              </p>
-            )}
+
+            {/* Email Input */}
+            <div className="space-y-1">
+              <label className="text-[10px] font-bold text-gray-400 uppercase tracking-widest ml-1">Email Address</label>
+              <div className={`neumorph-input-container !p-2.5 ${fieldErrors.email ? 'ring-2 ring-red-200 border-red-300' : ''}`}>
+                <Mail className="w-4 h-4 text-gray-400 mx-2" />
+                <input
+                  className="w-full outline-none bg-transparent text-gray-800 placeholder-gray-400 text-sm"
+                  type="email"
+                  value={email}
+                  onChange={(e) => {
+                    setEmail(e.target.value);
+                    clearFieldError('email');
+                  }}
+                  placeholder="name@example.com"
+                  required
+                  disabled={isLoading}
+                />
+              </div>
+              {fieldErrors.email && (
+                <p className="mt-1 text-red-600 text-[10px] font-medium flex items-center ml-1">
+                  <AlertCircle className="w-2.5 h-2.5 mr-1" />
+                  {fieldErrors.email}
+                </p>
+              )}
+            </div>
+
+            {/* Passwords Divider */}
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+              {/* Password Input */}
+              <div className="space-y-1">
+                <label className="text-[10px] font-bold text-gray-400 uppercase tracking-widest ml-1">Password</label>
+                <div className={`neumorph-input-container !p-2.5 ${fieldErrors.password ? 'ring-2 ring-red-200 border-red-300' : ''}`}>
+                  <Lock className="w-4 h-4 text-gray-400 mx-2" />
+                  <input
+                    className="w-full outline-none bg-transparent text-gray-800 placeholder-gray-400 text-sm"
+                    type={showPassword ? "text" : "password"}
+                    value={password}
+                    onChange={(e) => {
+                      setPassword(e.target.value);
+                      clearFieldError('password');
+                      if (confirmPassword && e.target.value === confirmPassword) {
+                        clearFieldError('confirmPassword');
+                      }
+                    }}
+                    placeholder="••••••••"
+                    required
+                    disabled={isLoading}
+                  />
+                  <button
+                    type="button"
+                    onClick={() => setShowPassword(prev => !prev)}
+                    className="text-gray-400 hover:text-gray-600 p-1"
+                    disabled={isLoading}
+                  >
+                    {showPassword ? <EyeOff size={14} /> : <Eye size={14} />}
+                  </button>
+                </div>
+                {fieldErrors.password && (
+                  <p className="mt-1 text-red-600 text-[10px] font-medium flex items-center ml-1">
+                    {fieldErrors.password}
+                  </p>
+                )}
+              </div>
+
+              {/* Confirm Password Input */}
+              <div className="space-y-1">
+                <label className="text-[10px] font-bold text-gray-400 uppercase tracking-widest ml-1">Confirm</label>
+                <div className={`neumorph-input-container !p-2.5 ${fieldErrors.confirmPassword ? 'ring-2 ring-red-200 border-red-300' : ''}`}>
+                  <Lock className="w-4 h-4 text-gray-400 mx-2" />
+                  <input
+                    className="w-full outline-none bg-transparent text-gray-800 placeholder-gray-400 text-sm"
+                    type={showConfirmPassword ? "text" : "password"}
+                    value={confirmPassword}
+                    onChange={(e) => {
+                      setConfirmPassword(e.target.value);
+                      clearFieldError('confirmPassword');
+                    }}
+                    placeholder="••••••••"
+                    required
+                    disabled={isLoading}
+                  />
+                  <button
+                    type="button"
+                    onClick={() => setShowConfirmPassword(prev => !prev)}
+                    className="text-gray-400 hover:text-gray-600 p-1"
+                    disabled={isLoading}
+                  >
+                    {showConfirmPassword ? <EyeOff size={14} /> : <Eye size={14} />}
+                  </button>
+                </div>
+                {fieldErrors.confirmPassword && (
+                  <p className="mt-1 text-red-600 text-[10px] font-medium flex items-center ml-1">
+                    {fieldErrors.confirmPassword}
+                  </p>
+                )}
+              </div>
+            </div>
           </div>
 
-          {/* Password Input */}
-          <div className="mb-4">
-            <div className={`flex items-center bg-gray-50 border rounded-xl p-3 transition-all duration-300 focus-within:ring-2 focus-within:ring-amber-200 ${
-              fieldErrors.password ? 'border-red-300 hover:border-red-400 focus-within:border-red-400' : 'border-gray-200 hover:border-amber-300 focus-within:border-amber-400'
-            }`}
-                 style={{
-                   boxShadow: 'inset 3px 3px 6px rgba(0, 0, 0, 0.05), inset -3px -3px 6px rgba(255, 255, 255, 0.9)'
-                 }}>
-              <Lock className="w-5 h-5 text-gray-400 mr-3" />
-              <input
-                className="w-full outline-none bg-transparent text-gray-800 placeholder-gray-500 py-1"
-                type={showPassword ? "text" : "password"}
-                value={password}
-                onChange={(e) => {
-                  setPassword(e.target.value);
-                  clearFieldError('password');
-                  // Also clear confirm password error if passwords now match
-                  if (confirmPassword && e.target.value === confirmPassword) {
-                    clearFieldError('confirmPassword');
-                  }
-                }}
-                placeholder="Password"
-                required
-                disabled={isLoading}
-              />
-              <button
-                type="button"
-                onClick={() => setShowPassword(prev => !prev)}
-                className="text-gray-400 hover:text-gray-600 transition-colors duration-200 p-1 rounded-lg hover:bg-gray-100 disabled:opacity-50"
-                disabled={isLoading}
-              >
-                {showPassword ? <EyeOff size={18} /> : <Eye size={18} />}
-              </button>
-            </div>
-            {fieldErrors.password && (
-              <p className="mt-1 text-red-600 text-xs flex items-center">
-                <AlertCircle className="w-3 h-3 mr-1" />
-                {fieldErrors.password}
-              </p>
-            )}
-          </div>
-
-          {/* Confirm Password Input */}
-          <div className="mb-6">
-            <div className={`flex items-center bg-gray-50 border rounded-xl p-3 transition-all duration-300 focus-within:ring-2 focus-within:ring-amber-200 ${
-              fieldErrors.confirmPassword ? 'border-red-300 hover:border-red-400 focus-within:border-red-400' : 'border-gray-200 hover:border-amber-300 focus-within:border-amber-400'
-            }`}
-                 style={{
-                   boxShadow: 'inset 3px 3px 6px rgba(0, 0, 0, 0.05), inset -3px -3px 6px rgba(255, 255, 255, 0.9)'
-                 }}>
-              <Lock className="w-5 h-5 text-gray-400 mr-3" />
-              <input
-                className="w-full outline-none bg-transparent text-gray-800 placeholder-gray-500 py-1"
-                type={showConfirmPassword ? "text" : "password"}
-                value={confirmPassword}
-                onChange={(e) => {
-                  setConfirmPassword(e.target.value);
-                  clearFieldError('confirmPassword');
-                }}
-                placeholder="Confirm Password"
-                required
-                disabled={isLoading}
-              />
-              <button
-                type="button"
-                onClick={() => setShowConfirmPassword(prev => !prev)}
-                className="text-gray-400 hover:text-gray-600 transition-colors duration-200 p-1 rounded-lg hover:bg-gray-100 disabled:opacity-50"
-                disabled={isLoading}
-              >
-                {showConfirmPassword ? <EyeOff size={18} /> : <Eye size={18} />}
-              </button>
-            </div>
-            {fieldErrors.confirmPassword && (
-              <p className="mt-1 text-red-600 text-xs flex items-center">
-                <AlertCircle className="w-3 h-3 mr-1" />
-                {fieldErrors.confirmPassword}
-              </p>
-            )}
-          </div>
-
-          {/* Register Button */}
-          <button 
-            type="submit"
-            disabled={isLoading}
-            className={`w-full mb-4 font-semibold py-3 rounded-xl transition-all duration-300 focus:outline-none focus:ring-4 focus:ring-amber-200 flex items-center justify-center ${
-              isLoading 
-                ? 'bg-amber-400 cursor-not-allowed' 
-                : 'bg-amber-500 hover:bg-amber-600 hover:scale-[1.02] cursor-pointer'
-            } text-white`}
-            style={{
-              boxShadow: '6px 6px 12px rgba(217, 119, 6, 0.2), -6px -6px 12px rgba(255, 255, 255, 0.9)'
-            }}
-          >
-            {isLoading ? (
-              <>
-                <Loader2 className="w-5 h-5 animate-spin mr-2" />
-                Creating Account...
-              </>
-            ) : (
-              'Create Account'
-            )}
-          </button>
-
-          {/* Login link */}
-          <p className="text-center text-gray-600">
-            Already have an account?{" "}
+          <div className="pt-6 space-y-6">
+            {/* Register Button */}
             <button
-              type="button"
-              onClick={() => { router.push("/login") }}
+              type="submit"
               disabled={isLoading}
-              className={`text-amber-600 font-semibold cursor-pointer hover:text-amber-700 underline transition-colors duration-200 ${
-                isLoading ? 'opacity-50 cursor-not-allowed' : ''
-              }`}
+              className={`neumorph-button w-full ${isLoading ? 'opacity-70 cursor-not-allowed grayscale-[0.2]' : ''}`}
             >
-              Log In
+              {isLoading ? (
+                <div className="flex items-center space-x-2">
+                  <Loader2 className="w-5 h-5 animate-spin" />
+                  <span>Preparing Account...</span>
+                </div>
+              ) : (
+                'Create Account'
+              )}
             </button>
-          </p>
+
+            {/* Login link */}
+            <p className="text-center text-gray-500 text-sm">
+              Already have an account?{" "}
+              <button
+                type="button"
+                onClick={() => { router.push("/login") }}
+                disabled={isLoading}
+                className="text-amber-600 font-bold hover:text-amber-700 transition-colors underline decoration-2 underline-offset-4"
+              >
+                Log In
+              </button>
+            </p>
+          </div>
         </div>
+
       </form>
     </div>
   );
